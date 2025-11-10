@@ -50,18 +50,41 @@ class Distances:
 class KCenterDecisionVariant:
     def __init__(self, distances: Distances, k: int) -> None:
         self.distances = distances
+        self.nodes = self.distances.all_vertices
         # TODO: Implement me!
+        self._vars = {node: i for i, node in enumerate(self.nodes)}
+        self.k = k
+        self.solver = SATSolver("Gluecard4")
+
+        self.solver.add_atmost([self._vars[node] for node in self.nodes], self.k)
+
         # Solution model
         self._solution: list[NodeId] | None = None
+
 
     def limit_distance(self, limit: float) -> None:
         """Adds constraints to the SAT solver to ensure coverage within the given distance."""
         logging.info("Limiting to distance: %f", limit)
         # TODO: Implement me!
+        for node in self.nodes:
+            nodes_in_range = self.distances.vertices_in_range(node, limit)
+            self.solver.add_clause(nodes_in_range)
+
+    def get_selection(self, model):
+        return [node for node in self.nodes if self._vars[node] in model]
+
 
     def solve(self) -> list[NodeId] | None:
         """Solves the SAT problem and returns the list of selected nodes, if feasible."""
         # TODO: Implement me!
+        self.solver.solve()
+        model = self.solver.get_model()
+        
+        if model is None:
+            self._solution = None
+            return self._solution
+
+        self._solution = self.get_selection(model)
         return self._solution
 
     def get_solution(self) -> list[NodeId]:
