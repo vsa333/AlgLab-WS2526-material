@@ -50,9 +50,9 @@ class Distances:
 class KCenterDecisionVariant:
     def __init__(self, distances: Distances, k: int) -> None:
         self.distances = distances
-        self.nodes = self.distances.all_vertices
+        self.nodes = self.distances.all_vertices()
         # TODO: Implement me!
-        self._vars = {node: i for i, node in enumerate(self.nodes)}
+        self._vars = {node: i for i, node in enumerate(self.nodes, 1)}
         self.k = k
         self.solver = SATSolver("Gluecard4")
 
@@ -105,6 +105,9 @@ class KCentersSolver:
         """
         self.graph = graph
         # TODO: Implement me!
+        
+        self.distances = Distances(graph)
+        self.nodes = self.distances.all_vertices()
 
     def solve_heur(self, k: int) -> list[NodeId]:
         """
@@ -112,7 +115,16 @@ class KCentersSolver:
         Returns the k selected centers as a list of node IDs.
         """
         # TODO: Implement me!
-        centers = None
+        centers = []
+        for i in range(k):
+            if i == 0:
+                centers.append(list(self.nodes)[0])
+            distance = self.distances.max_dist(centers)
+            for u in self.nodes:
+                for center in centers:
+                    if self.distances.dist(u, center) == distance:
+                        centers.append(u)
+
         return centers
 
 
@@ -122,8 +134,19 @@ class KCentersSolver:
         Returns the selected centers as a list of node IDs.
         """
         # Start with a heuristic solution
+        possible_values = self.distances.sorted_distances()
+        decision_variant = KCenterDecisionVariant(self.distances, k)
         centers = self.solve_heur(k)
-        obj = self.distances.max_dist(centers)
+        while True:
+            obj = self.distances.max_dist(centers)
+            possible_values = [value for value in possible_values if value <= obj]
+            decision_variant.limit_distance(possible_values[-1])
+            result = decision_variant.solve()
+            if result is None:
+                break
+            if result == centers:
+                break
+            centers = result
+            print(result)
 
-        # TODO: Implement me!
         return centers
