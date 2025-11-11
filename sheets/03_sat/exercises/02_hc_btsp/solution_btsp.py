@@ -35,10 +35,19 @@ class BottleneckTSPSolver:
         Check the networkx documentation for more information!
         """
         self.graph = graph
+        
         # TODO: Implement me!
+        self.weights_dict = {frozenset((edge[0], edge[1])): edge[2]["weight"] for edge in self.graph.edges(data=True)}
+        self.weights = sorted([edge[2]["weight"] for edge in self.graph.edges(data=True)])
+
 
     def lower_bound(self) -> float:
         # TODO: Implement me!
+        return
+
+    def get_max_weight(self, cycle):
+        return max(self.weights_dict[frozenset((edge[0], edge[1]))] for edge in cycle)
+
 
     def optimize_bottleneck(
         self,
@@ -51,3 +60,58 @@ class BottleneckTSPSolver:
 
         self.timer = Timer(time_limit)
         # TODO: Implement me!
+        
+        G = self.graph.copy()
+
+#        best_solution = None
+  
+        while True:
+
+            split_idx = len(self.weights) // 2
+            left_side = [weight for weight in self.weights if weight < self.weights[split_idx]]
+            right_side = [weight for weight in self.weights if weight >= self.weights[split_idx]]
+            removable_edges = [edge for edge in G.edges(data=True) if edge[2]["weight"] > self.weights[split_idx]]
+
+            G.remove_edges_from(removable_edges)
+
+            hc_solver = HamiltonianCycleModel(G)
+            cycle = hc_solver.solve()
+            
+            if cycle is None:
+                G.add_edges_from(removable_edges)
+                self.weights = right_side
+
+            else:
+                self.weights = left_side
+
+            if len(self.weights) <= 1:
+                return cycle
+
+
+
+
+
+
+
+
+
+
+            """
+            hc_solver = HamiltonianCycleModel(G)
+
+            cycle = hc_solver.solve()
+
+            if cycle is None:
+                return best_solution
+            
+            best_solution = cycle            
+            max_weight = self.get_max_weight(cycle)
+
+            self.weights = [weight for weight in self.weights if weight < max_weight]
+
+            removable_edges = [edge for edge in G.edges(data=True) if edge[2]["weight"] >= max_weight]
+            if len(self.weights) < 1:
+                return best_solution
+
+            G.remove_edges_from(removable_edges)
+            """
