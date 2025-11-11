@@ -119,6 +119,7 @@ class KCentersSolver:
         for i in range(k):
             if i == 0:
                 centers.append(list(self.nodes)[0])
+                continue
             distance = self.distances.max_dist(centers)
             for u in self.nodes:
                 for center in centers:
@@ -137,16 +138,23 @@ class KCentersSolver:
         possible_values = self.distances.sorted_distances()
         decision_variant = KCenterDecisionVariant(self.distances, k)
         centers = self.solve_heur(k)
+        count = -1
         while True:
             obj = self.distances.max_dist(centers)
-            possible_values = [value for value in possible_values if value <= obj]
-            decision_variant.limit_distance(possible_values[-1])
+            possible_values = [value for value in possible_values if value < obj]
+            
+            if len(possible_values) < (-1 * count):
+                break
+            
+            decision_variant.limit_distance(possible_values[count])
+
             result = decision_variant.solve()
             if result is None:
                 break
             if result == centers:
-                break
-            centers = result
-            print(result)
+                count -= 1
+            else:
+                count = -1
 
+            centers = result
         return centers
