@@ -36,6 +36,21 @@ class GurobiTspRelaxationSolver:
         logging.info("Implementing subtour elimination with >= %d", k)
         self._model = gp.Model()
         # TODO: Implement me!
+        
+        self._vars = {
+            frozenset((u, v)): self._model.addVar(vtype=gp.GRB.CONTINUOUS, lb=0, ub=1, name=f"edge_{u}_{v}")
+            for u, v in G.edges
+        }
+
+        self.add_degree_constraints()
+
+        #gleiche anzahl kanten wie knoten (für hamiltonkreis)
+        self._model.addConstr(gp.quicksum(self._vars[frozenset(u, v)] for u, v in G.edges) == len(G.nodes))
+        self.add_objective()
+    
+    def add_objective(self):
+
+        self._model.setObjective(gp.quicksum(edge[2] * self._vars[frozenset((edge[0], edge[1]))] for edge in self.graph.edges(data=True)), gp.GRB.MINIMIZE)
 
     def add_lower_bound(self, lb: float) -> None:
         """
@@ -54,6 +69,8 @@ class GurobiTspRelaxationSolver:
         Return the current lower bound.
         """
         # TODO: Implement me!
+        return self._model.ObjBound
+
 
     def get_solution(self) -> typing.Optional[nx.Graph]:
         """
@@ -70,12 +87,59 @@ class GurobiTspRelaxationSolver:
         ```
         """
         # TODO: Implement me!
+        edges = self.get_selection()
+        nodes = self.get_nodes_from_tour(edges)
+
+        graph = nx.Graph
+        graph.add_edges_from(edges)
+        graph.add_nodes_from(nodes)
+
+        return graph
 
     def get_objective(self) -> typing.Optional[float]:
         """
         Return the objective value of the last solution.
         """
         # TODO: Implement me!
+        return self._model.ObjVal
+    
+    def add_degree_constraints(self):
+
+        for node in self.graph.nodes():
+            self._model.addConstr(gp.quicksum(self._vars[frozenset((node, neighbor))] for neighbor in self.graph.neighbors(node)) == 2, name=f"deg_constr{node}")
+
+    def get_components(self, tour_nodes, tour_edges):
+        
+        G = nx.Graph()
+        G.add_nodes_from(tour_nodes)
+        G.add_edges_from(tour_edges)
+
+        c = list(nx.connected_components(G))
+        
+        return len(c)
+
+    def add_subtour_constraint(self, tour_nodes, tour_edges):
+
+        c = self.get_components(tour_nodes, tour_edges)
+
+        for component_nodes in c:
+            clause = []
+            for node in component_nodes:
+                clause += [self._vars[frozenset((node, neighbor))] for neighbor in self.graph.neighbors(node) if neighbor not in component_nodes]
+
+        self._model.addConstr(gp.quicksum(clause) >= self.k)
+
+        return len(c)
+
+    def get_selection(self):
+        return [edge for edge in self.edges if self._vars[frozenset((edge[0], edge[1]))].X >= 0.001]
+    
+    def get_nodes_from_tour(self, tour):
+        nodes = []
+        for edge in tour:
+            nodes.append(edge[0])
+        return nodes
+
 
     def solve(self) -> None:
         """
@@ -87,3 +151,14 @@ class GurobiTspRelaxationSolver:
         self._model.Params.LogToConsole = 1
 
         # TODO: Implement me!
+        while True:
+
+            self._model.optimize()
+            selection = []                
+            selection = self.get_selection()
+            c = self.get_components(self.get_nodes_from_tour(selection), selection)
+            
+            if (len(c) != 1):
+                self.add_subtour_constraint(self.get_nodes_from_tour(selection), selection)
+            else:
+                break
