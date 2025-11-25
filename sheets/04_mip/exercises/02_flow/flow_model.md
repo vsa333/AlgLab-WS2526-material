@@ -36,7 +36,7 @@ x_e + x_f \leq 1 \:,\text{ where } e=(u,v), \: f=(v,u) \in E
 
 - There can be no flow going out of the elevator $x$:
 ```math
-\sum_{e=(x,u) \in E} x_e f_{x,u}
+\sum_{e=(x,u) \in E} x_e f_{x,u} = 0
 ```
 
 - The budget has to be respected:
