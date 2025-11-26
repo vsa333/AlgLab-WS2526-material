@@ -19,7 +19,7 @@ class GurobiTspSolver:
         G is a weighted networkx graph, where the weight of an edge is stored in the
         "weight" attribute. It is strictly positive.
         """
-        self.graph = G
+        self.graph = G.copy()
         self.edges = G.edges(data=True)
         self.nodes = G.nodes()
         assert (
@@ -47,13 +47,13 @@ class GurobiTspSolver:
         self.add_degree_constraints()
 
         #gleiche anzahl kanten wie knoten (für hamiltonkreis)
-        self._model.addConstr(gp.quicksum(self._vars[frozenset(u, v)] for u, v in G.edges) == len(G.nodes))
+        self._model.addConstr(gp.quicksum(self._vars[frozenset((u, v))] for u, v in G.edges) == len(G.nodes))
         self.add_objective()
 
 
     def add_objective(self):
 
-        self._model.setObjective(gp.quicksum(edge[2] * self._vars[frozenset((edge[0], edge[1]))] for edge in self.graph.edges(data=True)), gp.GRB.MINIMIZE)
+        self._model.setObjective(gp.quicksum(edge[2]["weight"] * self._vars[frozenset((edge[0], edge[1]))] for edge in self.graph.edges(data=True)), gp.GRB.MINIMIZE)
 
 
     def add_degree_constraints(self):
@@ -70,7 +70,7 @@ class GurobiTspSolver:
 
         c = list(nx.connected_components(G))
         
-        return len(c)
+        return c
 
 
     def add_subtour_constraint(self, tour_nodes, tour_edges):
@@ -90,9 +90,9 @@ class GurobiTspSolver:
     def get_selection(self, in_callback):
 
         if in_callback:
-            return [edge for edge in self.edges if self._model.cbGetSolution(self._vars[frozenset((edge[0], edge[1]))])]
+            return [edge for edge in self.edges if self._model.cbGetSolution(self._vars[frozenset((edge[0], edge[1]))]) > 0.5]
         else:
-            return [edge for edge in self.edges if self._vars[frozenset((edge[0], edge[1]))].X]
+            return [edge for edge in self.edges if self._vars[frozenset((edge[0], edge[1]))].X > 0.5]
 
 
     def get_lower_bound(self) -> float:
@@ -110,9 +110,9 @@ class GurobiTspSolver:
         edges = self.get_selection(False)
         nodes = self.get_nodes_from_tour(edges)
 
-        graph = nx.Graph
-        graph.add_edges_from(edges)
+        graph = nx.Graph()
         graph.add_nodes_from(nodes)
+        graph.add_edges_from(edges)
 
         return graph
 
@@ -153,9 +153,10 @@ class GurobiTspSolver:
                 selection = self.get_selection(True)
                 c = self.get_components(self.get_nodes_from_tour(selection), selection)
                 
-                if (len(c) != 1):
-                    self.add_subtour_constraint(self.get_nodes_from_tour(selection), selection)
-
+                if (len(c) == 1):
+                    return
+                
+                self.add_subtour_constraint(self.get_nodes_from_tour(selection), selection)
 
         self._model.Params.LazyConstraints = 1
         self._model.optimize(callback)
