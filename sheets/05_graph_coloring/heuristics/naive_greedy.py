@@ -10,7 +10,7 @@ class GCNaiveGreedy:
 
         graph = nx.Graph()
         for node in G.nodes:
-            graph.add_node(node, color=1)
+            graph.add_node(node, color=0)
 
         graph.add_edges_from(G.edges)
         return graph
@@ -18,20 +18,7 @@ class GCNaiveGreedy:
 
     def solve(self):
 
-        for node in self.graph.nodes:
-            i = 0
-            color_found = False
-            while not color_found:
-                i += 1
-                skip = False
-                for neighbor in self.graph.neighbors(node):
-                    if self.graph.nodes[neighbor]["color"] == i:
-                        skip = True
-                        break
-                
-                if skip: continue
-                color_found = True   
-            
-            self.graph.nodes[node]["color"] = i
+        for node in self.graph.nodes:                            
+            self.graph.nodes[node]["color"] = max(self.graph.nodes[neighbor]["color"] for neighbor in self.graph.neighbors(node))+1
 
         return max(self.graph.nodes[node]["color"] for node in self.graph.nodes)

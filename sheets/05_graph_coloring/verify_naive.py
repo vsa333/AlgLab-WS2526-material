@@ -9,6 +9,8 @@ def myciel3():
     graph = gc.graphs["myciel3"]
     ng = GCNaiveGreedy(graph)
     solution = ng.solve()
+    print(ng.graph.nodes(data=True))
+    print(ng.graph.edges)
 
     CHECK(solution >= 4, "The solution is better than the optimum")
     CHECK((ng.graph.nodes[node]["color"] != ng.graph.nodes[neighbor]["color"] for node in ng.graph.nodes for neighbor in ng.graph.neighbors(node)), "There are adjacent nodes with the same color")
