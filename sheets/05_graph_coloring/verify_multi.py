@@ -47,9 +47,9 @@ def myciel6():
 
 
 @mandatory_testcase(max_runtime_s=30)
-def myciel7():
+def queen11_11():
     gc = GCGraphInstance()
-    graph = gc.graphs["myciel7"]
+    graph = gc.graphs["queen11_11"]
     ng = GCMultiStartGreedy(graph)
     solution = ng.solve()
 

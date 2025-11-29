@@ -1,5 +1,5 @@
 import networkx as nx
-
+import pathlib
 
 class GCGraphInstance():
 
@@ -11,6 +11,7 @@ class GCGraphInstance():
             "myciel5.col",
             "myciel6.col",
             "myciel7.col",
+            "queen11_11.col",
         ]
 
         self.graphs = {}
@@ -23,16 +24,16 @@ class GCGraphInstance():
 
             graph = nx.Graph()
             file = open("instances/" + self._files[i])
-            j = 0
+
             for line in file:
                 line = line.strip()
-                if j < 6:
-                    j += 1
+                if line[0] != 'e':
                     continue
+
                 node1, node2 = self._read_edge(line)
                 graph.add_edge(node1, node2)
             
-            string = "myciel" + str(i+3)
+            string = pathlib.Path(self._files[i]).stem
             self.graphs[string] = graph.copy()
             file.close()
 

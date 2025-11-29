@@ -21,4 +21,6 @@ class GCNaiveGreedy:
         for node in self.graph.nodes:                            
             self.graph.nodes[node]["color"] = max(self.graph.nodes[neighbor]["color"] for neighbor in self.graph.neighbors(node))+1
 
-        return max(self.graph.nodes[node]["color"] for node in self.graph.nodes)
+        sol = max(self.graph.nodes[node]["color"] for node in self.graph.nodes)
+        print("Solution found: ", sol)
+        return sol
