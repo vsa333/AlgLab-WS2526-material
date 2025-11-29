@@ -18,8 +18,11 @@ class GCNaiveGreedy:
 
     def solve(self):
 
-        for node in self.graph.nodes:                            
-            self.graph.nodes[node]["color"] = max(self.graph.nodes[neighbor]["color"] for neighbor in self.graph.neighbors(node))+1
+        for node in self.graph.nodes:
+            color = min(self.graph.nodes[neighbor]["color"] for neighbor in self.graph.neighbors(node))-1
+            if color < 1:
+                color = max(self.graph.nodes[neighbor]["color"] for neighbor in self.graph.neighbors(node))+1
+            self.graph.nodes[node]["color"] = color
 
         sol = max(self.graph.nodes[node]["color"] for node in self.graph.nodes)
         print("Solution found: ", sol)

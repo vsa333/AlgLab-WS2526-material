@@ -32,8 +32,14 @@ class GCMultiStartGreedy:
             graph = self.start_graph.copy()
 
             for j in range(n):
-                idx = (j + i) % n 
-                graph.nodes[self.nodes_arr[idx]]["color"] = max(graph.nodes[neighbor]["color"] for neighbor in graph.neighbors(self.nodes_arr[idx]))+1
+                idx = (j + i) % n
+
+                color = min(graph.nodes[neighbor]["color"] for neighbor in graph.neighbors(self.nodes_arr[idx]))-1
+                if color < 1:
+                    color = max(graph.nodes[neighbor]["color"] for neighbor in graph.neighbors(self.nodes_arr[idx]))+1
+                    graph.nodes[self.nodes_arr[idx]]["color"] = color
+
+                graph.nodes[self.nodes_arr[idx]]["color"] = color
 
 
             curr_cnum = max(graph.nodes[node]["color"] for node in graph.nodes)
