@@ -5,7 +5,7 @@ class GCMultiStartGreedy:
 
     def __init__(self, G: nx.Graph):
         self.start_graph = self.init_graph(G)
-        self.nodes_arr = self.nodes_to_array(self.start_graph.nodes())
+        self.nodes_arr = list(self.start_graph.nodes())
         self.best_graph = None
         self.best_cnum = None
 
@@ -17,12 +17,22 @@ class GCMultiStartGreedy:
 
         graph.add_edges_from(G.edges)
         return graph
+    
+    
+    def get_color(self, node, graph):
 
-    def nodes_to_array(self, nodes):
-        arr = []
-        for node in nodes:
-            arr.append(node)
-        return arr
+        i = 1
+        while True:
+            col_found = True
+            
+            for neighbor in graph.neighbors(node):
+                if graph.nodes[neighbor]["color"] == i:
+                    i += 1
+                    col_found = False
+                    break
+            
+            if col_found:
+                return i
 
     def solve(self):
 
@@ -34,11 +44,7 @@ class GCMultiStartGreedy:
             for j in range(n):
                 idx = (j + i) % n
 
-                color = min(graph.nodes[neighbor]["color"] for neighbor in graph.neighbors(self.nodes_arr[idx]))-1
-                if color < 1:
-                    color = max(graph.nodes[neighbor]["color"] for neighbor in graph.neighbors(self.nodes_arr[idx]))+1
-                    graph.nodes[self.nodes_arr[idx]]["color"] = color
-
+                color = self.get_color(self.nodes_arr[idx], graph)
                 graph.nodes[self.nodes_arr[idx]]["color"] = color
 
 

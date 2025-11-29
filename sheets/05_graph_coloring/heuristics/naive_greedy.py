@@ -16,12 +16,28 @@ class GCNaiveGreedy:
         return graph
 
 
+    def get_color(self, node):
+
+
+        i = 1
+        while True:
+            col_found = True
+            
+            for neighbor in self.graph.neighbors(node):
+                if self.graph.nodes[neighbor]["color"] == i:
+                    i += 1
+                    col_found = False
+                    break
+            
+            if col_found:
+                return i
+            
+
+
     def solve(self):
 
         for node in self.graph.nodes:
-            color = min(self.graph.nodes[neighbor]["color"] for neighbor in self.graph.neighbors(node))-1
-            if color < 1:
-                color = max(self.graph.nodes[neighbor]["color"] for neighbor in self.graph.neighbors(node))+1
+            color = self.get_color(node)
             self.graph.nodes[node]["color"] = color
 
         sol = max(self.graph.nodes[node]["color"] for node in self.graph.nodes)
