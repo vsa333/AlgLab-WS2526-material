@@ -58,5 +58,18 @@ def queen11_11():
     CHECK((ng.graph.nodes[node]["color"] != ng.graph.nodes[neighbor]["color"] for node in ng.graph.nodes for neighbor in ng.graph.neighbors(node)), "There are adjacent nodes with the same color")
 
 
+@mandatory_testcase(max_runtime_s=30)
+def le450_15b():
+    gc = GCGraphInstance()
+    graph = gc.graphs["le450_15b"]
+    ng = GCNaiveGreedy(graph)
+    solution = ng.solve()
+
+    CHECK(solution >= 8, "The solution is better than the optimum")
+    CHECK((ng.graph.nodes[node]["color"] != ng.graph.nodes[neighbor]["color"] for node in ng.graph.nodes for neighbor in ng.graph.neighbors(node)), "There are adjacent nodes with the same color")
+
+
+
+
 if __name__ == "__main__":
     main()

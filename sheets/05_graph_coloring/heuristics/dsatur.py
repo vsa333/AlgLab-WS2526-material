@@ -69,5 +69,5 @@ class GCDsatur:
             unc_nodes.remove(nxt_node)
 
         sol = max(self.graph.nodes[node]["color"] for node in self.graph.nodes)
-        print("Solution found: ", sol)
+        print("DS - Solution found: ", sol)
         return sol

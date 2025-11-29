@@ -4,18 +4,25 @@ import pathlib
 class GCGraphInstance():
 
 
-    def __init__(self):
-        self._files = [
-            "myciel3.col",
-            "myciel4.col",
-            "myciel5.col",
-            "myciel6.col",
-            "myciel7.col",
-            "queen11_11.col",
-        ]
-
+    def __init__(self, gen = False):
+        
         self.graphs = {}
-        self._read_graphs()
+
+        if gen:
+            for i in range(10):
+                graph = nx.erdos_renyi_graph(i+100, 0.9)
+                self.graphs[i] = graph
+        else:
+            self._files = [
+                "myciel3.col",
+                "myciel4.col",
+                "myciel5.col",
+                "myciel6.col",
+                "myciel7.col",
+                "queen11_11.col",
+                "le450_15b.col",
+            ]
+            self._read_graphs()
 
 
     def _read_graphs(self):

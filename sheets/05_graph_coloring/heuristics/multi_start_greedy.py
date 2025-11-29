@@ -50,9 +50,8 @@ class GCMultiStartGreedy:
 
             curr_cnum = max(graph.nodes[node]["color"] for node in graph.nodes)
             if self.best_cnum is None or curr_cnum < self.best_cnum:
-                print("New best solution found: ", curr_cnum)
                 self.best_cnum = curr_cnum
                 self.best_graph = graph
 
-
+        print("MS - Solution found: ", self.best_cnum)
         return self.best_cnum
