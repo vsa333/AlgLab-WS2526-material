@@ -4,14 +4,28 @@ import pathlib
 class GCGraphInstance():
 
 
-    def __init__(self, gen = False):
+    def __init__(self, type = "", gen = None):
         
         self.graphs = {}
 
-        if gen:
-            for i in range(10):
-                graph = nx.erdos_renyi_graph(i+100, 0.9)
-                self.graphs[i] = graph
+        if gen is not None:
+
+            match type:
+                case "barabasi":
+                    for i in range(gen):
+                        graph = nx.barabasi_albert_graph(i+100, 12)
+                        self.graphs[i] = graph
+                
+                case "kneser":
+                    for i in range(gen):
+                        graph = nx.kneser_graph(i+10, 3+i)
+                        self.graphs[i] = graph
+
+                case _:
+                    for i in range(gen):
+                        graph = nx.erdos_renyi_graph(i+100, 0.5)
+                        self.graphs[i] = graph
+             
         else:
             self._files = [
                 "myciel3.col",

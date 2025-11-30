@@ -53,7 +53,7 @@ def queen11_11():
     ng = GCMultiStartGreedy(graph)
     solution = ng.solve()
 
-    CHECK(solution >= 8, "The solution is better than the optimum")
+    CHECK(solution >= 11, "The solution is better than the optimum")
     CHECK((ng.best_graph.nodes[node]["color"] != ng.best_graph.nodes[neighbor]["color"] for node in ng.best_graph.nodes for neighbor in ng.best_graph.neighbors(node)), "There are adjacent nodes with the same color")
 
 
@@ -64,7 +64,7 @@ def le450_15b():
     ng = GCMultiStartGreedy(graph)
     solution = ng.solve()
 
-    CHECK(solution >= 8, "The solution is better than the optimum")
+    CHECK(solution >= 15, "The solution is better than the optimum")
     CHECK((ng.best_graph.nodes[node]["color"] != ng.best_graph.nodes[neighbor]["color"] for node in ng.best_graph.nodes for neighbor in ng.best_graph.neighbors(node)), "There are adjacent nodes with the same color")
 
 

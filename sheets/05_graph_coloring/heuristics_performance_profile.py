@@ -24,7 +24,7 @@ instances = []
 strategies = []
 metrics = []
 
-gc = GCGraphInstance(gen=True)
+gc = GCGraphInstance("kneser", gen=10)
 for name in gc.graphs.keys():
     graph = gc.graphs[name]
 
@@ -63,11 +63,11 @@ ax = ppp.plot_performance_profile(
     metric_column="metric",
     direction="min",        # "min" wenn kleiner besser ist
     comparison="relative",  # oder "absolute"
-    title="Performance Profile (Beispiel)",
+    title="Performance Profile (Heuristics)",
     highlight_best=True,
 )
 
 #plt.show()
 
-ax.figure.savefig("benchmarking/plots/heuristics_performance_profile2.png", dpi=300, bbox_inches="tight")
+ax.figure.savefig("benchmarking/plots/heuristics_performance_profile_kneser.png", dpi=300, bbox_inches="tight")
 
