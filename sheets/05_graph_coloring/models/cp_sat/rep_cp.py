@@ -11,7 +11,20 @@ class REP_CP:
         self.solver = CpSolver()
         self.solver.parameters.log_search_progress = True
 
-        self.x = {(v, w): self.model.new_bool_var(f"{v}_{w}") for v in self.nodes for w in self.nodes if w <= v and w not in self.graph.neighbors(v)}
+        for i, node in enumerate(self.nodes):
+            self.graph.nodes[node]["idx"] = i
+
+
+        self.x = {}
+        for v in self.nodes:
+            for w in self.nodes:
+                if w in self.graph.neighbors(v):
+                    continue
+                if self.graph.nodes[w]["idx"] <= self.graph.nodes[v]["idx"]:
+                    self.x[(v, w)] = self.model.new_bool_var(f"{v}_{w}")
+                else:
+                    self.x[(v, w)] = 0
+
         self.add_one_rep_constraint()
         self.add_consistency_constraint()
 

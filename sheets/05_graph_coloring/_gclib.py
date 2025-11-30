@@ -1,5 +1,6 @@
 import networkx as nx
 import pathlib
+import os
 
 class GCGraphInstance():
 
@@ -27,15 +28,9 @@ class GCGraphInstance():
                         self.graphs[i] = graph
              
         else:
-            self._files = [
-                "myciel3.col",
-                "myciel4.col",
-                "myciel5.col",
-                "myciel6.col",
-                "myciel7.col",
-                "queen11_11.col",
-                "le450_15b.col",
-            ]
+            self._files = []
+            for file in os.listdir("instances/"):
+                self._files.append(file)
             self._read_graphs()
 
 
