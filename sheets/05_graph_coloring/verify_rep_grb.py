@@ -1,6 +1,6 @@
 from _alglab_utils import CHECK, main, mandatory_testcase
 from _gclib import GCGraphInstance
-from models.cp_sat.rep_cp import REP_CP
+from models.gurobi.rep_grb import REP_GRB
 
 
 
@@ -8,7 +8,7 @@ from models.cp_sat.rep_cp import REP_CP
 def myciel3_rep_cp():
     gc = GCGraphInstance()
     graph = gc.graphs["myciel3"]
-    ng = REP_CP(graph)
+    ng = REP_GRB(graph)
     solution = ng.solve()
 
     CHECK(solution == 4, "Not the optimal solution")
@@ -20,7 +20,7 @@ def myciel3_rep_cp():
 def myciel4_rep_cp():
     gc = GCGraphInstance()
     graph = gc.graphs["myciel4"]
-    ng = REP_CP(graph)
+    ng = REP_GRB(graph)
     solution = ng.solve()
 
     CHECK(solution == 5, f"Not the optimal solution: {solution} != 5")
@@ -31,7 +31,7 @@ def myciel4_rep_cp():
 def queen6_6_rep_cp():
     gc = GCGraphInstance()
     graph = gc.graphs["queen6_6"]
-    ng = REP_CP(graph)
+    ng = REP_GRB(graph)
     solution = ng.solve()
 
     CHECK(solution == 7, f"Not the optimal solution: {solution} != 7")
@@ -42,7 +42,7 @@ def queen6_6_rep_cp():
 def myciel5_rep_cp():
     gc = GCGraphInstance()
     graph = gc.graphs["myciel5"]
-    ng = REP_CP(graph)
+    ng = REP_GRB(graph)
     solution = ng.solve()
 
     CHECK(solution == 6, "Not the optimal solution")

@@ -59,9 +59,21 @@ class REP_CP:
         self.model.minimize(sum(self.x[(w, w)] for w in self.nodes))
 
 
+    def make_colored_graph(self):
+        color = 1
+        for w in self.nodes:
+            if self.solver.Value(self.x[(w, w)]) == 1:
+                self.graph.nodes[w]["color"] = color
+                color += 1
+        
+        for (v, w), x in self.x.items():
+            if self.solver.Value(x):
+                self.graph.nodes[v]["color"] = self.graph.nodes[w]["color"]
+
+
     def solve(self):
         status = self.solver.solve(self.model)
-        
+        self.make_colored_graph()
         return self.solver.ObjectiveValue()
 
 
