@@ -1,6 +1,8 @@
-from heuristics.dsatur import GCDsatur
-from heuristics.multi_start_greedy import GCMultiStartGreedy
-from heuristics.naive_greedy import GCNaiveGreedy
+from models.gurobi.ass_grb import ASSGRB
+from models.gurobi.ass_s_grb import ASS_SGRB
+from models.gurobi.rep_grb import REP_GRB
+
+
 from _gclib import GCGraphInstance
 from benchmarking import plot_performance_profile as ppp
 
@@ -24,28 +26,48 @@ instances = []
 strategies = []
 metrics = []
 
-gc = GCGraphInstance("barabasi", gen=100)
-for name in gc.graphs.keys():
-    graph = gc.graphs[name]
+gc = GCGraphInstance("kneser", gen=5)
+gc2 = GCGraphInstance("barabasi", gen=5)
+gc3 = GCGraphInstance("erdos", gen=5)
 
-    ng = GCNaiveGreedy(graph)
-    sol_ng = ng.solve()
+
+
+all_graphs = {}
+i = 0
+for k in gc.graphs.values():
+    all_graphs[i] = k
+    i += 1
+
+for b in gc2.graphs.values():
+    all_graphs[i] = b
+    i += 1
+
+for e in gc3.graphs.values():
+    all_graphs[i] = e
+    i += 1
+
+
+for name in all_graphs.keys():
+    graph = all_graphs[name]
+
+    ng = ASSGRB(graph)
+    sol_ng = ng.solve(60)
     instances.append(name)
-    strategies.append("naive_greedy")
+    strategies.append("ASS")
     metrics.append(sol_ng)
 
 
-    ms = GCMultiStartGreedy(graph)
-    sol_ms = ms.solve()
+    ms = ASS_SGRB(graph)
+    sol_ms = ms.solve(60)
     instances.append(name)
-    strategies.append("multi_start_greedy")
+    strategies.append("ASS_S")
     metrics.append(sol_ms)
 
 
-    ds = GCDsatur(graph)
-    sol_ds = ds.solve()
+    ds = REP_GRB(graph)
+    sol_ds = ds.solve(60)
     instances.append(name)
-    strategies.append("DSATUR")
+    strategies.append("REP")
     metrics.append(sol_ds)
 
 
@@ -63,11 +85,11 @@ ax = ppp.plot_performance_profile(
     metric_column="metric",
     direction="min",        # "min" wenn kleiner besser ist
     comparison="relative",  # oder "absolute"
-    title="Performance Profile (Heuristics)",
+    title="Performance Profile (Gurobi Models)",
     highlight_best=True,
 )
 
 #plt.show()
 
-ax.figure.savefig("benchmarking/plots/heuristics_performance_profile_barabasi.png", dpi=300, bbox_inches="tight")
+ax.figure.savefig("benchmarking/plots/gurobi_performance_profile.png", dpi=300, bbox_inches="tight")
 
