@@ -9,7 +9,7 @@ def myciel3_rep_cp():
     gc = GCGraphInstance()
     graph = gc.graphs["myciel3"]
     ng = REP_GRB(graph)
-    solution = ng.solve()
+    solution = ng.solve(30)
 
     CHECK(solution == 4, "Not the optimal solution")
     CHECK((ng.graph.nodes[node]["color"] != ng.graph.nodes[neighbor]["color"] for node in ng.graph.nodes for neighbor in ng.graph.neighbors(node)), "There are adjacent nodes with the same color")
@@ -21,7 +21,7 @@ def myciel4_rep_cp():
     gc = GCGraphInstance()
     graph = gc.graphs["myciel4"]
     ng = REP_GRB(graph)
-    solution = ng.solve()
+    solution = ng.solve(30)
 
     CHECK(solution == 5, f"Not the optimal solution: {solution} != 5")
     CHECK((ng.graph.nodes[node]["color"] != ng.graph.nodes[neighbor]["color"] for node in ng.graph.nodes for neighbor in ng.graph.neighbors(node)), "There are adjacent nodes with the same color")
@@ -32,7 +32,7 @@ def queen6_6_rep_cp():
     gc = GCGraphInstance()
     graph = gc.graphs["queen6_6"]
     ng = REP_GRB(graph)
-    solution = ng.solve()
+    solution = ng.solve(30)
 
     CHECK(solution == 7, f"Not the optimal solution: {solution} != 7")
     CHECK((ng.graph.nodes[node]["color"] != ng.graph.nodes[neighbor]["color"] for node in ng.graph.nodes for neighbor in ng.graph.neighbors(node)), "There are adjacent nodes with the same color")
@@ -43,7 +43,7 @@ def myciel5_rep_cp():
     gc = GCGraphInstance()
     graph = gc.graphs["myciel5"]
     ng = REP_GRB(graph)
-    solution = ng.solve()
+    solution = ng.solve(30)
 
     CHECK(solution == 6, "Not the optimal solution")
     CHECK((ng.graph.nodes[node]["color"] != ng.graph.nodes[neighbor]["color"] for node in ng.graph.nodes for neighbor in ng.graph.neighbors(node)), "There are adjacent nodes with the same color")

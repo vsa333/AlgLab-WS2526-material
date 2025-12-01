@@ -9,7 +9,7 @@ class ASS_SGRB:
     def __init__(self, G: nx.Graph):
         self.graph = G
         self.nodes = self.graph.nodes()
-        self.model = gp.model()
+        self.model = gp.Model()
 
         self.colors = [i for i in range(GCMultiStartGreedy(self.graph).solve())]
 
@@ -64,8 +64,8 @@ class ASS_SGRB:
 
     def solve(self, time_limit):
 
-        self._model.Params.LogToConsole = 1
-        self._model.Params.TimeLimit = time_limit
+        self.model.Params.LogToConsole = 1
+        self.model.Params.TimeLimit = time_limit
         #self._model.Params.LazyConstraints = 1
         #self._model.Params.MIPGap = (opt_tol  # https://www.gurobi.com/documentation/11.0/refman/mipgap.html)
         

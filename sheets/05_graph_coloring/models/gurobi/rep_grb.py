@@ -8,7 +8,7 @@ class REP_GRB:
     def __init__(self, G: nx.Graph):
         self.graph = G
         self.nodes = list(self.graph.nodes())
-        self.model = gp.model()
+        self.model = gp.Model()
 
         for i, node in enumerate(self.nodes):
             self.graph.nodes[node]["idx"] = i
@@ -67,12 +67,17 @@ class REP_GRB:
                 color += 1
         
         for (v, w), x in self.x.items():
+            if type(x) is int: continue
             if x.X >= 0.5:
                 self.graph.nodes[v]["color"] = self.graph.nodes[w]["color"]
 
 
 
-    def solve(self):
-        status = self.solver.solve(self.model)
+    def solve(self, time_limit):
         
-        return self.solver.ObjectiveValue()
+        self.model.Params.LogToConsole = 1
+        self.model.Params.TimeLimit = time_limit
+
+        status = self.model.optimize()
+        self.make_colored_graph()
+        return self.model.ObjVal

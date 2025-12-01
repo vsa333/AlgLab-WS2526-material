@@ -52,8 +52,8 @@ class ASSGRB:
 
     def solve(self, time_limit):
 
-        self._model.Params.LogToConsole = 1
-        self._model.Params.TimeLimit = time_limit
+        self.model.Params.LogToConsole = 1
+        self.model.Params.TimeLimit = time_limit
         #self._model.Params.LazyConstraints = 1
         #self._model.Params.MIPGap = (opt_tol  # https://www.gurobi.com/documentation/11.0/refman/mipgap.html)
         
