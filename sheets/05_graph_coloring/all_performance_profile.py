@@ -1,8 +1,14 @@
 from models.gurobi.ass_grb import ASSGRB
 from models.gurobi.ass_s_grb import ASS_SGRB
 from models.gurobi.rep_grb import REP_GRB
+from models.cp_sat.ass_cp import ASSCP
+from models.cp_sat.ass_s_cp import ASS_SCP
+from models.cp_sat.rep_cp import REP_CP
+from models.cp_sat.cp_alldiff import CP_ALLDIFF
+from models.cp_sat.cp_neq import CP_NEQ
+from models.sat.sat_form_solver import GCSATSolver
 
-
+import os
 from _gclib import GCGraphInstance
 from benchmarking import plot_performance_profile as ppp
 
@@ -28,7 +34,7 @@ metrics = []
 
 gc = GCGraphInstance("kneser", gen=0)
 gc2 = GCGraphInstance("barabasi", gen=0)
-gc3 = GCGraphInstance("erdos", gen=1)
+gc3 = GCGraphInstance("erdos", gen=10)
 
 
 
@@ -50,9 +56,18 @@ for e in gc3.graphs.values():
 for name in all_graphs.keys():
     graph = all_graphs[name]
 
+    os.system("conda deactivate")
+
+
+    sat = GCSATSolver(graph)
+    sol_sat = sat.solve(60)
+    instances.append(name)
+    strategies.append("GCSATSolver")
+    metrics.append(sol_sat)
+
+
     ng = ASSGRB(graph)
     sol_ng = ng.solve(60)
-    print(sol_ng)
     instances.append(name)
     strategies.append("ASS")
     metrics.append(sol_ng)
@@ -70,6 +85,42 @@ for name in all_graphs.keys():
     instances.append(name)
     strategies.append("REP")
     metrics.append(sol_ds)
+    
+    
+    ng = ASSCP(graph)
+    sol_ng = ng.solve(60)
+    instances.append(name)
+    strategies.append("ASSCP")
+    metrics.append(sol_ng)
+    
+    ng = ASS_SCP(graph)
+    sol_ng = ng.solve(60)
+    instances.append(name)
+    strategies.append("ASS_CP")
+    metrics.append(sol_ng)
+
+    ng = REP_CP(graph)
+    sol_ng = ng.solve(60)
+    instances.append(name)
+    strategies.append("REP_CP")
+    metrics.append(sol_ng)
+
+    ng = CP_NEQ(graph)
+    sol_ng = ng.solve(60)
+    instances.append(name)
+    strategies.append("CP_NEQ")
+    metrics.append(sol_ng)
+
+    ng = CP_ALLDIFF(graph)
+    sol_ng = ng.solve(60)
+    instances.append(name)
+    strategies.append("CP_ALLDIFF")
+    metrics.append(sol_ng)
+
+
+
+
+
 
 
 data = pd.DataFrame({
@@ -86,11 +137,11 @@ ax = ppp.plot_performance_profile(
     metric_column="metric",
     direction="min",        # "min" wenn kleiner besser ist
     comparison="relative",  # oder "absolute"
-    title="Performance Profile (Gurobi Models)",
+    title="Performance Profile (All Models)",
     highlight_best=True,
 )
 
 #plt.show()
 
-ax.figure.savefig("benchmarking/plots/gurobi_performance_profile2.png", dpi=300, bbox_inches="tight")
+ax.figure.savefig("benchmarking/plots/all_performance_profile.png", dpi=300, bbox_inches="tight")
 

@@ -1,6 +1,6 @@
 import networkx as nx
 from heuristics.multi_start_greedy import GCMultiStartGreedy
-
+import math
 
 from ortools.sat.python.cp_model import FEASIBLE, OPTIMAL, CpModel, CpSolver
 
@@ -54,7 +54,10 @@ class ASSCP:
         g.add_edges_from(self.graph.edges())
         return g
 
-    def solve(self):
+    def solve(self, time_limit: float = math.inf):
+
+        if time_limit is not None:
+            self.solver.parameters.max_time_in_seconds = time_limit
 
         status = self.solver.solve(self.model)
         G = self.make_colored_graph()

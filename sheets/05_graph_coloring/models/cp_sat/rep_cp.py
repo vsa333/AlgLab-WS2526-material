@@ -1,5 +1,6 @@
 import networkx as nx
 from ortools.sat.python.cp_model import FEASIBLE, OPTIMAL, CpModel, CpSolver
+import math
 
 
 class REP_CP:
@@ -71,7 +72,11 @@ class REP_CP:
                 self.graph.nodes[v]["color"] = self.graph.nodes[w]["color"]
 
 
-    def solve(self):
+    def solve(self, time_limit: float =  math.inf):
+
+        if time_limit is not None:
+            self.solver.parameters.max_time_in_seconds = time_limit
+
         status = self.solver.solve(self.model)
         self.make_colored_graph()
         return self.solver.ObjectiveValue()

@@ -14,17 +14,18 @@ class GCGraphInstance():
             match type:
                 case "barabasi":
                     for i in range(gen):
-                        graph = nx.barabasi_albert_graph(i+50, 5)
+                        print("aaahhah")
+                        graph = nx.barabasi_albert_graph(i+300, 20)
                         self.graphs[i] = graph
                 
                 case "kneser":
                     for i in range(gen):
-                        graph = nx.kneser_graph(i+7, 2+i)
+                        graph = nx.kneser_graph(i+15, 2+i)
                         self.graphs[i] = graph
 
                 case "erdos":
                     for i in range(gen):
-                        graph = nx.erdos_renyi_graph(i+50, 0.5)
+                        graph = nx.erdos_renyi_graph(150, 0.2)
                         self.graphs[i] = graph
 
                 case "cycle":
@@ -36,6 +37,7 @@ class GCGraphInstance():
                     for i in range(gen):
                         graph = nx.wheel_graph(i+100)
                         self.graphs[i] = graph
+
              
         else:
             self._files = []

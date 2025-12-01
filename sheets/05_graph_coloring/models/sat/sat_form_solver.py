@@ -1,6 +1,10 @@
 import networkx as nx
 from models.sat.sat_form_decision_variant import GCSATDecisionVariant
 from heuristics.multi_start_greedy import GCMultiStartGreedy
+import time
+import math
+import time
+import typing
 
 class GCSATSolver:
 
@@ -12,15 +16,17 @@ class GCSATSolver:
         self.colors = [i+1 for i in range(self.k)]
 
 
-    def solve(self):
+    def solve(self, time_limit = math.inf):
+
+        self.timer = Timer(time_limit)
   
         while True:
-
             split_idx = len(self.colors) // 2
             left_side = [color for color in self.colors if color <= self.colors[split_idx-1]]
             right_side = [color for color in self.colors if color > self.colors[split_idx-1]]
 
-            gc_solver = GCSATDecisionVariant(self.graph, self.colors[split_idx-1])
+            if self.timer.is_out_of_time(): break
+            gc_solver = GCSATDecisionVariant(self.graph, self.colors[split_idx-1], self.timer.remaining())
             coloring = gc_solver.solve()
             
             if coloring is None:
@@ -33,3 +39,70 @@ class GCSATSolver:
                 coloring = gc_solver.solve()
                 self.graph = gc_solver.graph
                 return coloring
+            
+""" 
+class Timer:
+    def __init__(self, time_limit):
+        self.start = time.time()
+        self.end = self.start
+        self.timelimit = time_limit
+
+
+    def check(self):
+        self.end = time.time()
+        if round(self.end-self.start) >= self.timelimit:
+            return 1
+        else:
+            return 0
+        
+    def time_remaining(self):
+        self.end = time.time()
+        return self.timelimit-(self.end-self.start)
+    
+ """
+class Timer:
+    """
+    A simple timer for measuring time.
+    """
+
+    def __init__(self, runtime: float = 0.0):
+        self.runtime = runtime
+        self.start = time.time()
+        self.saved_times = []
+
+    def remaining(self) -> float:
+        """
+        The remaining time.
+        """
+        return self.runtime - self.time()
+
+    def time(self) -> float:
+        """
+        Time since the creation of the timer.
+        """
+        return time.time() - self.start
+
+    def reset(self, runtime: typing.Optional[float] = None):
+        if runtime is not None:
+            self.runtime = runtime
+        self.start = time.time()
+        self.saved_times = []
+
+    def __bool__(self):
+        """
+        Returns true if there is still time remaining.
+        """
+        return not self.is_out_of_time()
+
+    def is_out_of_time(self) -> bool:
+        return self.remaining() < 0
+
+    def lap(self, label):
+        self.saved_times.append((self.time(), label))
+
+    def get_laps(self):
+        return list(self.saved_times)
+
+    def check(self):
+        if not bool(self):
+            raise TimeoutError()

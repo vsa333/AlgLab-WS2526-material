@@ -1,9 +1,20 @@
 import networkx as nx
 from pysat.solvers import Solver as SATSolver
+from threading import Timer
+import math
 
 
 class GCSATDecisionVariant:
-    def __init__(self, G: nx.Graph, k: int) -> None:
+    def __init__(self, G: nx.Graph, k: int, time_limit: float = math.inf) -> None:
+        self.solver = SATSolver("Gluecard4")
+
+        def interrupt(sig):
+            sig.interrupt()
+
+        if time_limit <= math.inf:
+            self.timer = Timer(time_limit, interrupt, [self.solver])
+            self.timer.start()
+
         self.graph = G
         self.nodes = self.graph.nodes()
         self.colors = [i+1 for i in range(k)]
@@ -16,7 +27,6 @@ class GCSATDecisionVariant:
                 i += 1
 
 
-        self.solver = SATSolver("Gluecard4")
 
         self.add_assign_color_constraint()
         self.add_adjacency_constraint()
@@ -47,8 +57,7 @@ class GCSATDecisionVariant:
 
 
     def solve(self):
-
         model = None
-        self.solver.solve()
+        self.status = self.solver.solve_limited(expect_interrupt=True)
         model = self.solver.get_model()
         return self.get_chromatic_number(model)
