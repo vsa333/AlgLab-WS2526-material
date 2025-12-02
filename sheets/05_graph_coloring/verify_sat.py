@@ -4,7 +4,7 @@ from models.sat.sat_form_solver import GCSATSolver
 
 
 
-@mandatory_testcase(max_runtime_s=60.0)
+@mandatory_testcase(max_runtime_s=30)
 def myciel3_sat():
     gc = GCGraphInstance()
     graph = gc.graphs["myciel3"]
@@ -13,7 +13,6 @@ def myciel3_sat():
 
     CHECK(solution == 4, f"Not the optimal solution {solution} != 4")
     CHECK((ng.graph.nodes[node]["color"] != ng.graph.nodes[neighbor]["color"] for node in ng.graph.nodes for neighbor in ng.graph.neighbors(node)), "There are adjacent nodes with the same color")
-
 
 @mandatory_testcase(max_runtime_s=30)
 def myciel4_sat():
@@ -29,7 +28,7 @@ def myciel4_sat():
 @mandatory_testcase(max_runtime_s=30)
 def queen5_5_sat():
     gc = GCGraphInstance()
-    graph = gc.graphs["erdos_renyi_graph0"]
+    graph = gc.graphs["queen5_5"]
     ng = GCSATSolver(graph)
     solution = ng.solve(30)
 

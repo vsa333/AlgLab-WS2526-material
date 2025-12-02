@@ -6,7 +6,7 @@ import math
 
 class GCSATDecisionVariant:
     def __init__(self, G: nx.Graph, k: int, time_limit: float = 60) -> None:
-        self.solver = SATSolver("Gluecard4", use_timer=True)
+        self.solver = SATSolver("Gluecard4")
 
         def interrupt(s):
             s.interrupt()
@@ -60,4 +60,5 @@ class GCSATDecisionVariant:
         model = None
         self.status = self.solver.solve_limited(expect_interrupt=True)
         model = self.solver.get_model()
+        self.timer.cancel()
         return self.get_chromatic_number(model), self.status
