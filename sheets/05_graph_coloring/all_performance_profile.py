@@ -34,7 +34,7 @@ metrics = []
 
 gc = GCGraphInstance("kneser", gen=0)
 gc2 = GCGraphInstance("barabasi", gen=0)
-gc3 = GCGraphInstance("erdos", gen=1)
+gc3 = GCGraphInstance("erdos", gen=10)
 
 
 
@@ -87,7 +87,7 @@ for name in all_graphs.keys():
     strategies.append("REP")
     metrics.append(sol_ds)
     """    
-    """     
+
     ng = ASSCP(graph)
     sol_ng = ng.solve(60)
     instances.append(name)
@@ -97,7 +97,7 @@ for name in all_graphs.keys():
     ng = ASS_SCP(graph)
     sol_ng = ng.solve(60)
     instances.append(name)
-    strategies.append("ASS_CP")
+    strategies.append("ASS_SCP")
     metrics.append(sol_ng)
 
     ng = REP_CP(graph)
@@ -117,13 +117,11 @@ for name in all_graphs.keys():
     instances.append(name)
     strategies.append("CP_ALLDIFF")
     metrics.append(sol_ng) 
-    """
-
 
 
 with open("all_1.txt", "w", encoding="utf-8") as file:
     file.write(f"[{', '.join(map(str, instances))}]\n")
-    file.write(f"[{', '.join(strategies)}]\n")
+    file.write(f'''["{'", '.join(strategies)}"]\n''')
     file.write(f"[{', '.join(map(str, metrics))}]\n")
 
 
