@@ -1,6 +1,6 @@
-from models.gurobi.ass_grb import ASSGRB
-from models.gurobi.ass_s_grb import ASS_SGRB
-from models.gurobi.rep_grb import REP_GRB
+#from models.gurobi.ass_grb import ASSGRB
+#from models.gurobi.ass_s_grb import ASS_SGRB
+#from models.gurobi.rep_grb import REP_GRB
 from models.cp_sat.ass_cp import ASSCP
 from models.cp_sat.ass_s_cp import ASS_SCP
 from models.cp_sat.rep_cp import REP_CP
@@ -34,7 +34,7 @@ metrics = []
 
 gc = GCGraphInstance("kneser", gen=0)
 gc2 = GCGraphInstance("barabasi", gen=0)
-gc3 = GCGraphInstance("erdos", gen=10)
+gc3 = GCGraphInstance("erdos", gen=1)
 
 
 
@@ -56,8 +56,9 @@ for e in gc3.graphs.values():
 for name in all_graphs.keys():
     graph = all_graphs[name]
 
-    os.system("conda deactivate")
-
+    with open(f"instances/erdos_renyi_graph{name}.col", "w", encoding="utf-8") as file:
+        for u, v in graph.edges():
+            file.write(f"e {u} {v}\n")
 
     sat = GCSATSolver(graph)
     sol_sat = sat.solve(60)
@@ -65,7 +66,7 @@ for name in all_graphs.keys():
     strategies.append("GCSATSolver")
     metrics.append(sol_sat)
 
-
+    """ 
     ng = ASSGRB(graph)
     sol_ng = ng.solve(60)
     instances.append(name)
@@ -85,8 +86,8 @@ for name in all_graphs.keys():
     instances.append(name)
     strategies.append("REP")
     metrics.append(sol_ds)
-    
-    
+    """    
+    """     
     ng = ASSCP(graph)
     sol_ng = ng.solve(60)
     instances.append(name)
@@ -115,11 +116,15 @@ for name in all_graphs.keys():
     sol_ng = ng.solve(60)
     instances.append(name)
     strategies.append("CP_ALLDIFF")
-    metrics.append(sol_ng)
+    metrics.append(sol_ng) 
+    """
 
 
 
-
+with open("all_1.txt", "w", encoding="utf-8") as file:
+    file.write(f"[{', '.join(map(str, instances))}]\n")
+    file.write(f"[{', '.join(strategies)}]\n")
+    file.write(f"[{', '.join(map(str, metrics))}]\n")
 
 
 

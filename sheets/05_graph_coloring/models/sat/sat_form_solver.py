@@ -16,29 +16,42 @@ class GCSATSolver:
         self.colors = [i+1 for i in range(self.k)]
 
 
-    def solve(self, time_limit = math.inf):
+    def solve(self, time_limit: float = 60):
+        self.solution = None
+        self.status = None
 
         self.timer = Timer(time_limit)
-  
+    
         while True:
             split_idx = len(self.colors) // 2
             left_side = [color for color in self.colors if color <= self.colors[split_idx-1]]
             right_side = [color for color in self.colors if color > self.colors[split_idx-1]]
 
             if self.timer.is_out_of_time(): break
+                        
             gc_solver = GCSATDecisionVariant(self.graph, self.colors[split_idx-1], self.timer.remaining())
-            coloring = gc_solver.solve()
+            coloring, status = gc_solver.solve()
             
+            if status is None: break
+
             if coloring is None:
                 self.colors = right_side
             else:
+                self.solution = coloring
                 self.colors = left_side
-
+            
             if len(self.colors) <= 1:
-                gc_solver = GCSATDecisionVariant(self.graph, self.colors[0])
-                coloring = gc_solver.solve()
+                gc_solver = GCSATDecisionVariant(self.graph, self.colors[0], self.timer.remaining())
+                coloring, status = gc_solver.solve()
+                if status is None: break
                 self.graph = gc_solver.graph
-                return coloring
+                self.solution = coloring
+            
+                return self.solution
+        
+        print("Solver timed out")
+        return self.solution
+
             
 """ 
 class Timer:
