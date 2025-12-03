@@ -6,7 +6,7 @@ In this chapter, we will benchmark the three different heuristics `naive_greedy`
 All the generated graphs had above 100 nodes with an edge creation probability of 0.5. The sample size was 100 graphs.
 
 Running the heuristics resulted in the following plot:
-![image](/benchmarking/plots/heuristics_performance_profile_erdos.png)
+![image](/benchmarking/plots/heuristics/heuristics_performance_profile_erdos.png)
 
 We can see that:
 - DSATUR showed the best results, returning the best known solution for ~98% of instances. For all instances, it returned a solution within 5% of the best.
@@ -19,7 +19,7 @@ It is evident that `DSATUR` offers the best solution most of the time, clearly o
 All the generated graphs had above 100 nodes with 12 edges attaching from now to existing nodes. The sample size was 100 graphs.
 
 Running the heuristics resulted in the following plot:
-![image](/benchmarking/plots/heuristics_performance_profile_barabasi.png)
+![image](/benchmarking/plots/heuristics/heuristics_performance_profile_barabasi.png)
 
 We can see that...
 
@@ -28,4 +28,4 @@ We can see that...
 All the generated graphs had above 10 nodes with a growing subset size above 3. The sample size was 20 graphs.
 
 Running the heuristics resulted in the following plot:
-![image](/benchmarking/plots/heuristics_performance_profile_kneser.png)
+![image](/benchmarking/plots/heuristics/heuristics_performance_profile_kneser.png)
