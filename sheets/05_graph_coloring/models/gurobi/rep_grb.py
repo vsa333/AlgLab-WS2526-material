@@ -80,4 +80,5 @@ class REP_GRB:
 
         status = self.model.optimize()
         self.make_colored_graph()
+        self.lb = self.model.ObjBound
         return self.model.ObjVal

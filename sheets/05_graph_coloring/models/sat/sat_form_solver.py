@@ -19,7 +19,7 @@ class GCSATSolver:
     def solve(self, time_limit: float = 60):
         self.solution = self.k
         self.status = None
-
+        self.lb = 0
         self.timer = Timer(time_limit)
     
         while True:
@@ -36,17 +36,19 @@ class GCSATSolver:
 
             if coloring is None:
                 self.colors = right_side
+                self.lb = self.colors[0]
             else:
                 self.solution = coloring
                 self.colors = left_side
-            
+                self.lb = self.colors[0]
+
             if len(self.colors) <= 1:
                 gc_solver = GCSATDecisionVariant(self.graph, self.colors[0])
                 coloring, status = gc_solver.solve()
                 if status is None: break
                 self.graph = gc_solver.graph
+                self.lb = self.colors[0]
                 self.solution = coloring
-
                 return self.solution
         
         print("Solver timed out")

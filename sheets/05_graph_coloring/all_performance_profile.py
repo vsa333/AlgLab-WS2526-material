@@ -55,11 +55,11 @@ for e in gc3.graphs.values():
 
 for name in all_graphs.keys():
     graph = all_graphs[name]
-
+    """ 
     with open(f"instances/erdos_renyi_graph{name}.col", "w", encoding="utf-8") as file:
         for u, v in graph.edges():
             file.write(f"e {u} {v}\n")
-
+    """
     sat = GCSATSolver(graph)
     sol_sat = sat.solve(60)
     instances.append(name)

@@ -71,4 +71,5 @@ class ASS_SGRB:
         
         self.model.optimize()
         self.graph = self.make_colored_graph()
+        self.lb = self.model.ObjBound
         return self.model.ObjVal

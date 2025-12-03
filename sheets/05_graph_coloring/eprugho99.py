@@ -1,6 +1,12 @@
 from models.gurobi.ass_grb import ASSGRB
 from models.gurobi.ass_s_grb import ASS_SGRB
 from models.gurobi.rep_grb import REP_GRB
+#from models.cp_sat.ass_cp import ASSCP
+#from models.cp_sat.ass_s_cp import ASS_SCP
+#from models.cp_sat.rep_cp import REP_CP
+#from models.cp_sat.cp_alldiff import CP_ALLDIFF
+#from models.cp_sat.cp_neq import CP_NEQ
+#from models.sat.sat_form_solver import GCSATSolver
 
 import os
 from _gclib import GCGraphInstance
@@ -22,10 +28,85 @@ data = pd.DataFrame({
 
 
 
-instances = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9]
-strategies = ["GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB"]
-metrics = [12, 9.0, 9.0, 10.0, 10.0, 10.0, 13, 9.0, 9.0, 10.0, 10.0, 10.0, 13, 10.0, 10.0, 10.0, 10.0, 10.0, 12, 9.0, 9.0, 10.0, 10.0, 10.0, 13, 9.0, 9.0, 10.0, 10.0, 10.0, 12, 9.0, 9.0, 10.0, 10.0, 10.0, 12, 10.0, 10.0, 11.0, 10.0, 10.0, 12, 9.0, 10.0, 10.0, 10.0, 10.0, 13, 9.0, 9.0, 10.0, 10.0, 10.0, 13, 9.0, 9.0, 10.0, 10.0, 10.0, 11.0, 11.0, 12.0, 12.0, 12.0, 14.0, 13.0, 11.0, 14.0, 11.0, 10.0, 12.0, 12.0, 11.0, 14.0, 11.0, 11.0, 13.0, 11.0, 10.0, 13.0, 11.0, 10.0, 14.0, 12.0, 10.0, 12.0, 13.0, 12.0, 13.0]
+instances = []
+strategies = []
+metrics = []
 
+
+
+
+all_graphs = GCGraphInstance()
+for i in range(10):
+    graph = all_graphs.graphs[f"erdos_renyi_graph{i}"]
+    """ 
+    with open(f"instances/erdos_renyi_graph{name}.col", "w", encoding="utf-8") as file:
+        for u, v in graph.edges():
+            file.write(f"e {u} {v}\n")
+    """
+    """
+    sat = GCSATSolver(graph)
+    sol_sat = sat.solve(60)
+    instances.append(i)
+    strategies.append("GCSATSolver")
+    metrics.append(sat.lb)
+    """ 
+
+    ng = ASSGRB(graph)
+    sol_ng = ng.solve(60)
+    instances.append(i)
+    strategies.append("ASS_GRB")
+    metrics.append(ng.lb)
+
+
+    ms = ASS_SGRB(graph)
+    sol_ms = ms.solve(60)
+    instances.append(i)
+    strategies.append("ASS_SGRB")
+    metrics.append(ms.lb)
+
+
+    ds = REP_GRB(graph)
+    sol_ds = ds.solve(60)
+    instances.append(i)
+    strategies.append("REP_GRB")
+    metrics.append(ds.lb)
+
+    """
+    ng = ASSCP(graph)
+    sol_ng = ng.solve(60)
+    instances.append(i)
+    strategies.append("ASS_CP")
+    metrics.append(ng.lb)
+    
+    ng = ASS_SCP(graph)
+    sol_ng = ng.solve(60)
+    instances.append(i)
+    strategies.append("ASS_SCP")
+    metrics.append(ng.lb)
+
+    ng = REP_CP(graph)
+    sol_ng = ng.solve(60)
+    instances.append(i)
+    strategies.append("REP_CP")
+    metrics.append(ng.lb)
+
+    ng = CP_NEQ(graph)
+    sol_ng = ng.solve(60)
+    instances.append(i)
+    strategies.append("CP_NEQ")
+    metrics.append(ng.lb)
+
+    ng = CP_ALLDIFF(graph)
+    sol_ng = ng.solve(60)
+    instances.append(i)
+    strategies.append("CP_ALLDIFF")
+    metrics.append(ng.lb) 
+    """
+
+with open("grb_lb.txt", "w", encoding="utf-8") as file:
+    file.write(f"[{', '.join(map(str, instances))}]\n")
+    file.write(f'''["{'", '.join(strategies)}"]\n''')
+    file.write(f"[{', '.join(map(str, metrics))}]\n")
 
 
 
@@ -49,5 +130,5 @@ ax = ppp.plot_performance_profile(
 
 #plt.show()
 
-ax.figure.savefig("benchmarking/plots/all_performance_profile_test.png", dpi=300, bbox_inches="tight")
+ax.figure.savefig("benchmarking/plots/all_performance_profile_lb.png", dpi=300, bbox_inches="tight")
 

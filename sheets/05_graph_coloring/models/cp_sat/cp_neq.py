@@ -49,4 +49,5 @@ class CP_NEQ:
 
         status = self.solver.solve(self.model)
         self.make_colored_graph()
+        self.lb = self.solver.BestObjectiveBound()
         return self.solver.ObjectiveValue()

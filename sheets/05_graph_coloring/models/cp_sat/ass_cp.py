@@ -62,4 +62,5 @@ class ASSCP:
         status = self.solver.solve(self.model)
         G = self.make_colored_graph()
         self.graph = G
+        self.lb = self.solver.BestObjectiveBound()
         return self.solver.ObjectiveValue()
