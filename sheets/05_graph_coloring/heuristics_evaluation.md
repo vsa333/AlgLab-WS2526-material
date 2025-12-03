@@ -21,7 +21,7 @@ All the generated graphs had above 100 nodes with 12 edges attaching from now to
 Running the heuristics resulted in the following plot:
 ![image](/benchmarking/plots/heuristics/heuristics_performance_profile_barabasi.png)
 
-We can see that...
+We can see that `DSATUR` still outperforms the other heuristics by a large margin. Both `multi_start_greedy` and `naive_greedy` show similar performance, with `multi_start_greedy` closing the gap to the best known solution in greater jumps.
 
 
 ## Kneser Graphs
@@ -29,3 +29,9 @@ All the generated graphs had above 10 nodes with a growing subset size above 3. 
 
 Running the heuristics resulted in the following plot:
 ![image](/benchmarking/plots/heuristics/heuristics_performance_profile_kneser.png)
+
+While `DSATUR` completely outperformed the the other algorithms in the previous instances, it falls behind for Kneser graphs. Both `multi_start_greedy` and `naive_greedy` find the best known solution for all instances, but `DSATUR` only finds them for 20%. The performance grows continuously but ultimately for all instances, `DSATUR` only returns a solution within 40% of the best known solution.
+
+### Honorable Mention
+
+DSATUR usually is the better heuristic in these cases. For Cycle and Wheel graphs DSATUR is even optimal and will outperform the other heuristics even more clearly

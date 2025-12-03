@@ -8,23 +8,12 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 
-""" 
-# Beispiel-Daten (klein)
-data = pd.DataFrame({
-    "instance": ["i1","i1","i1"],
-    "strategy": ["A","B","C"],
-    "metric":   [1.3, 1.1, 1.2],
-})
-"""
-
-
-
 
 instances = []
 strategies = []
 metrics = []
 
-gc = GCGraphInstance("barabasi", gen=100)
+gc = GCGraphInstance("wheel", gen=100)
 for name in gc.graphs.keys():
     graph = gc.graphs[name]
 
@@ -69,5 +58,5 @@ ax = ppp.plot_performance_profile(
 
 #plt.show()
 
-ax.figure.savefig("benchmarking/plots/heuristics_performance_profile_barabasi.png", dpi=300, bbox_inches="tight")
+ax.figure.savefig("benchmarking/plots/heuristics/heuristics_performance_profile_cycle.png", dpi=300, bbox_inches="tight")
 
