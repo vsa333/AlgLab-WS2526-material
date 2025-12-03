@@ -25,7 +25,6 @@ class MiningRoutingSolver:
 
         self.edges = self.graph.edges(data=True)
         self.vars = {(edge[0], edge[1]): self.model.addVar(vtype=GRB.BINARY) for edge in self.edges}
-        self.maintained_tunnels = {frozenset((edge[0], edge[1])): self.model.addVar(vtype=GRB.BINARY) for edge in self.edges}
         self.flows = {}
         self.define_flows()
 
@@ -48,7 +47,7 @@ class MiningRoutingSolver:
             ore_per_hour = self.get_prod(node)
             in_nodes = self.graph.predecessors(node)
             out_nodes = self.graph.successors(node)
-            self.model.addConstr(gp.quicksum(self.flows[(in_node, node)]*self.vars[(in_node, node)] for in_node in in_nodes) + ore_per_hour >= gp.quicksum(self.flows[(node, out_node)]*self.vars[(node, out_node)] for out_node in out_nodes))
+            self.model.addConstr(gp.quicksum(self.flows[(in_node, node)] for in_node in in_nodes) + ore_per_hour >= gp.quicksum(self.flows[(node, out_node)] for out_node in out_nodes))
 
         elevator = self.instance.elevator_location
         self.model.addConstr(gp.quicksum(self.flows[elevator, out_node] for out_node in self.graph.predecessors(elevator)) == 0)
@@ -62,7 +61,7 @@ class MiningRoutingSolver:
     def specify_objective(self):
         #self.model.setObjective(gp.quicksum(self.vars[(edge[0], edge[1])] * edge[2]["thrpt"] for edge in self.edges), GRB.MAXIMIZE)
         elevator = self.instance.elevator_location
-        self.model.setObjective(gp.quicksum(self.flows[(in_node, elevator)]*self.vars[(in_node, elevator)] for in_node in self.graph.predecessors(elevator)), GRB.MAXIMIZE)
+        self.model.setObjective(gp.quicksum(self.flows[(in_node, elevator)] for in_node in self.graph.predecessors(elevator)), GRB.MAXIMIZE)
 
 
 
@@ -110,8 +109,7 @@ class MiningRoutingSolver:
     def get_selection(self):
         selection = []
         for edge in self.edges:
-            util = round(self.vars[(edge[0], edge[1])].X)
-            if util == 1:
+            if self.flows[(edge[0], edge[1])].X >= 0.01:
                 selection.append(((edge[0], edge[1]), self.flows[(edge[0], edge[1])].X))
         return selection
 
