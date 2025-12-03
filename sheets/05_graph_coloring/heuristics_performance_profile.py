@@ -58,5 +58,5 @@ ax = ppp.plot_performance_profile(
 
 #plt.show()
 
-ax.figure.savefig("benchmarking/plots/heuristics/heuristics_performance_profile_cycle.png", dpi=300, bbox_inches="tight")
+ax.figure.savefig("benchmarking/plots/heuristics/heuristics_performance_profile_wheel.png", dpi=300, bbox_inches="tight")
 

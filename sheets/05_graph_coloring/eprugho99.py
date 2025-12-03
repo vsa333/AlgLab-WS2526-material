@@ -28,9 +28,12 @@ data = pd.DataFrame({
 
 
 
-instances = [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9]
-strategies = ["ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB","REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB"]
-metrics = [5.000000000000057, 5.000000000000002, 5.000000000000001, 5.000000000000117, 5.00000000000005, 5.0, 5.0000000000023235, 5.0, 5.0, 6.000000000000071, 6.000000000000007, 5.0, 6.0, 5.000000000000073, 5.0, 5.000000000000021, 5.0, 5.0, 6.000000000000001, 6.0, 5.0, 6.000000000000051, 6.0, 5.0, 5.000000000000025, 5.000000000000336, 5.0, 6.0, 5.0, 5.0]
+instances = [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9]
+
+strategies = ["ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF"]
+
+metrics = [5.000000000000057, 5.000000000000002, 5.000000000000001, 5.000000000000117, 5.00000000000005, 5.0, 5.0000000000023235, 5.0, 5.0, 6.000000000000071, 6.000000000000007, 5.0, 6.0, 5.000000000000073, 5.0, 5.000000000000021, 5.0, 5.0, 6.000000000000001, 6.0, 5.0, 6.000000000000051, 6.0, 5.0, 5.000000000000025, 5.000000000000336, 5.0, 6.0, 5.0, 5.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 7.0, 7.0, 6.0, 6.0, 6.0, 7, 7.0, 7.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 7.0, 7.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 7.0, 6.0, 6.0]
+
 
 
 
@@ -43,6 +46,7 @@ for i in range(10):
         for u, v in graph.edges():
             file.write(f"e {u} {v}\n")
     """
+    """ 
     sat = GCSATSolver(graph)
     sol_sat = sat.solve(60)
     instances.append(i)
@@ -50,7 +54,6 @@ for i in range(10):
     metrics.append(sat.lb)
 
 
-    """
     ng = ASSGRB(graph)
     sol_ng = ng.solve(60)
     instances.append(i)
@@ -70,7 +73,6 @@ for i in range(10):
     instances.append(i)
     strategies.append("REP_GRB")
     metrics.append(ds.lb)
-    """
 
     ng = ASSCP(graph)
     sol_ng = ng.solve(60)
@@ -106,7 +108,7 @@ with open("all_lb_dataset.txt", "w", encoding="utf-8") as file:
     file.write(f"[{', '.join(map(str, instances))}]\n")
     file.write(f'''["{'", "'.join(strategies)}"]\n''')
     file.write(f"[{', '.join(map(str, metrics))}]\n")
-
+ """
 
 
 data = pd.DataFrame({
@@ -121,9 +123,9 @@ ax = ppp.plot_performance_profile(
     instance_column="instance",
     strategy_column="strategy",
     metric_column="metric",
-    direction="min",        # "min" wenn kleiner besser ist
+    direction="max",        # "min" wenn kleiner besser ist
     comparison="relative",  # oder "absolute"
-    title="Performance Profile (All Models)",
+    title="Performance Profile for Lower Bounds(All Models)",
     highlight_best=True,
 )
 
