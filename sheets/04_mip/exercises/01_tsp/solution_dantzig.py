@@ -158,5 +158,4 @@ class GurobiTspSolver:
                 
                 self.add_subtour_constraint(self.get_nodes_from_tour(selection), selection)
 
-        self._model.Params.LazyConstraints = 1
         self._model.optimize(callback)
