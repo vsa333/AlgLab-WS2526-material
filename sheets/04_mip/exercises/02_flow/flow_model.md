@@ -18,6 +18,11 @@ We construct a directed graph $G = (V,E)$ with:
 - $f_{u,v} \in \mathbb{N}_{\leq u_e}$ for every $(u,v) = e \in E$. The flow variable of an edge indicates the throughput of ores in the flow.
 
 **Constraints**:
+
+```math
+f_e \leq x_e * u_e , e=(u,v)
+```
+
 - Every Tunnel can only be used in one direction (only one directed edge connecting the same two nodes can be taken):
 
 ```math

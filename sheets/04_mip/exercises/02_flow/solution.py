@@ -29,6 +29,11 @@ class MiningRoutingSolver:
         self.flows = {}
         self.define_flows()
 
+
+        for edge in self.edges:
+            self.model.addConstr(self.flows[(edge[0], edge[1])] <= self.vars[(edge[0], edge[1])] * edge[2]["thrpt"])
+
+
         self.add_directional_constraint()
         self.add_include_central_constraint()
         self.add_flow_conservation_constraint()
