@@ -1,5 +1,5 @@
 import networkx as nx
-
+import random
 
 class GCNaiveGreedy:
 
@@ -34,9 +34,17 @@ class GCNaiveGreedy:
             
 
 
-    def solve(self):
+    def solve(self, start_node = None):
 
-        for node in self.graph.nodes:
+        shuffled_nodes = list(self.graph.nodes)
+        if start_node is None:
+            random.shuffle(shuffled_nodes)
+        else:
+            tmp_nodes = [node for node in self.graph.nodes if node != start_node]
+            random.shuffle(tmp_nodes)
+            shuffled_nodes = [start_node] + tmp_nodes
+
+        for node in shuffled_nodes:
             color = self.get_color(node)
             self.graph.nodes[node]["color"] = color
 

@@ -27,9 +27,23 @@ class GCPreprocessor:
         return rdc_graph
 
 
-    def postprocess(self, sol_G: nx.Graph):
-        """
-        Convert a solution for the reduced graph back to the original graph.
-        As we are also interested in the lower bound, also pass it through.
-        """
-        pass
+    def postprocess(self, sol_G: nx.Graph, colors):
+
+
+        for node in sol_G:
+            self.graph.nodes[node]["color"] = sol_G.graph.nodes[node]["color"]
+        
+        n = len(self.removed_vertices)        
+        for i in range(1, n+1):
+            node = self.removed_vertices[n-i]
+
+            used_colors = {}
+            for neighbor in self.graph.neighbors(node):
+                used_colors[neighbor] = self.graph.nodes[neighbor]["color"]
+
+            for j in range(1, colors+1):
+                if j not in used_colors.values():
+                    self.graph.nodes[node]["color"] = i
+                    break
+            
+        return self.graph

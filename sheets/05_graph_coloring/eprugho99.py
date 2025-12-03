@@ -1,12 +1,12 @@
-from models.gurobi.ass_grb import ASSGRB
-from models.gurobi.ass_s_grb import ASS_SGRB
-from models.gurobi.rep_grb import REP_GRB
-#from models.cp_sat.ass_cp import ASSCP
-#from models.cp_sat.ass_s_cp import ASS_SCP
-#from models.cp_sat.rep_cp import REP_CP
-#from models.cp_sat.cp_alldiff import CP_ALLDIFF
-#from models.cp_sat.cp_neq import CP_NEQ
-#from models.sat.sat_form_solver import GCSATSolver
+# from models.gurobi.ass_grb import ASSGRB
+# from models.gurobi.ass_s_grb import ASS_SGRB
+# from models.gurobi.rep_grb import REP_GRB
+from models.cp_sat.ass_cp import ASSCP
+from models.cp_sat.ass_s_cp import ASS_SCP
+from models.cp_sat.rep_cp import REP_CP
+from models.cp_sat.cp_alldiff import CP_ALLDIFF
+from models.cp_sat.cp_neq import CP_NEQ
+from models.sat.sat_form_solver import GCSATSolver
 
 import os
 from _gclib import GCGraphInstance
@@ -28,9 +28,9 @@ data = pd.DataFrame({
 
 
 
-instances = []
-strategies = []
-metrics = []
+instances = [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9]
+strategies = ["ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB","REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB"]
+metrics = [5.000000000000057, 5.000000000000002, 5.000000000000001, 5.000000000000117, 5.00000000000005, 5.0, 5.0000000000023235, 5.0, 5.0, 6.000000000000071, 6.000000000000007, 5.0, 6.0, 5.000000000000073, 5.0, 5.000000000000021, 5.0, 5.0, 6.000000000000001, 6.0, 5.0, 6.000000000000051, 6.0, 5.0, 5.000000000000025, 5.000000000000336, 5.0, 6.0, 5.0, 5.0]
 
 
 
@@ -43,14 +43,14 @@ for i in range(10):
         for u, v in graph.edges():
             file.write(f"e {u} {v}\n")
     """
-    """
     sat = GCSATSolver(graph)
     sol_sat = sat.solve(60)
     instances.append(i)
     strategies.append("GCSATSolver")
     metrics.append(sat.lb)
-    """ 
 
+
+    """
     ng = ASSGRB(graph)
     sol_ng = ng.solve(60)
     instances.append(i)
@@ -70,8 +70,8 @@ for i in range(10):
     instances.append(i)
     strategies.append("REP_GRB")
     metrics.append(ds.lb)
-
     """
+
     ng = ASSCP(graph)
     sol_ng = ng.solve(60)
     instances.append(i)
@@ -101,11 +101,10 @@ for i in range(10):
     instances.append(i)
     strategies.append("CP_ALLDIFF")
     metrics.append(ng.lb) 
-    """
 
-with open("grb_lb.txt", "w", encoding="utf-8") as file:
+with open("all_lb_dataset.txt", "w", encoding="utf-8") as file:
     file.write(f"[{', '.join(map(str, instances))}]\n")
-    file.write(f'''["{'", '.join(strategies)}"]\n''')
+    file.write(f'''["{'", "'.join(strategies)}"]\n''')
     file.write(f"[{', '.join(map(str, metrics))}]\n")
 
 

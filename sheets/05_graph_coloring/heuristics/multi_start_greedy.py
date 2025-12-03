@@ -1,4 +1,5 @@
 import networkx as nx
+from heuristics.naive_greedy import GCNaiveGreedy
 
 
 class GCMultiStartGreedy:
@@ -41,17 +42,12 @@ class GCMultiStartGreedy:
             curr_cnum = 0
             graph = self.start_graph.copy()
 
-            for j in range(n):
-                idx = (j + i) % n
+            ng = GCNaiveGreedy(graph)
+            curr_cnum = ng.solve(self.nodes_arr[i])
 
-                color = self.get_color(self.nodes_arr[idx], graph)
-                graph.nodes[self.nodes_arr[idx]]["color"] = color
-
-
-            curr_cnum = max(graph.nodes[node]["color"] for node in graph.nodes)
             if self.best_cnum is None or curr_cnum < self.best_cnum:
                 self.best_cnum = curr_cnum
-                self.best_graph = graph
+                self.best_graph = ng.graph
 
         print("MS - Solution found: ", self.best_cnum)
         return self.best_cnum
