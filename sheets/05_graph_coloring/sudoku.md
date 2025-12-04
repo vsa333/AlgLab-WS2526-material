@@ -5,7 +5,7 @@ Say you have a partially filled Sudoku field. We convert the instance into a gra
 - No number can be repeated in the same row, so we add an edge between every node corresponding to the same row
 - No number can be repeated in the same 3x3 subfield, so we add an edge between every node corresponding to the same subfield
 
-If a cell already has a number in the sudoku instance, the corresponding nodes color is fixed (to the corresponding color).
+If a cell already has a number in the sudoku instance, the corresponding node is connected to every node of a 9-clique of auxilliary nodes, except one node of the clique, corresponding to the set number/color.
 
 This graph is 9-colorable iff. the sudoku instance is solvable.
 Per construction, every coloring of the graph corresponds to a filled out sudoku field, where the colors convert to numbers (1-9), and the nodes convert to cells in the grid. Two nodes are connected when, in the sudoku instance (as cells), they are in the same column, row, or subfield. Conversely, two nodes can only have the same color when they are not directly connected. In the sudoku instance, this corresponds to two cells with the same number, which are not in the same row, column or subfield.
