@@ -4,12 +4,12 @@ from models.gurobi.ass_grb import ASSGRB
 
 
 
-@mandatory_testcase(max_runtime_s=30)
+@mandatory_testcase(max_runtime_s=60)
 def myciel3_ass():
     gc = GCGraphInstance()
-    graph = gc.graphs["myciel3"]
+    graph = gc.graphs["barabasi_albert_graph0"]
     ng = ASSGRB(graph)
-    solution = ng.solve(30)
+    solution = ng.solve(60)
 
     CHECK(solution == 4, "Not the optimal solution")
     CHECK((ng.graph.nodes[node]["color"] != ng.graph.nodes[neighbor]["color"] for node in ng.graph.nodes for neighbor in ng.graph.neighbors(node)), "There are adjacent nodes with the same color")

@@ -14,7 +14,7 @@ class GCGraphInstance():
             match type:
                 case "barabasi":
                     for i in range(gen):
-                        graph = nx.barabasi_albert_graph(i+100, 12)
+                        graph = nx.barabasi_albert_graph(i+210, 15)
                         self.graphs[i] = graph
                 
                 case "kneser":

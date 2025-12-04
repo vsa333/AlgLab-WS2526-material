@@ -25,16 +25,36 @@ data = pd.DataFrame({
 })
 """
 
-GRAPH_TYPE = "barabasi_albert"
+
+
 
 instances = []
 strategies = []
 metrics = []
 
-gc = GCGraphInstance()
+gc = GCGraphInstance("kneser", gen=0)
+gc2 = GCGraphInstance("barabasi", gen=0)
+gc3 = GCGraphInstance("erdos", gen=10)
 
-for i in range(10):
-    graph = gc.graphs[f"{GRAPH_TYPE}_graph{i}"]
+
+
+all_graphs = {}
+i = 0
+for k in gc.graphs.values():
+    all_graphs[i] = k
+    i += 1
+
+for b in gc2.graphs.values():
+    all_graphs[i] = b
+    i += 1
+
+for e in gc3.graphs.values():
+    all_graphs[i] = e
+    i += 1
+
+
+for name in all_graphs.keys():
+    graph = all_graphs[name]
     """ 
     with open(f"instances/erdos_renyi_graph{name}.col", "w", encoding="utf-8") as file:
         for u, v in graph.edges():
@@ -42,7 +62,7 @@ for i in range(10):
     """
     sat = GCSATSolver(graph)
     sol_sat = sat.solve(60)
-    instances.append(i)
+    instances.append(name)
     strategies.append("GCSATSolver")
     metrics.append(sol_sat)
 
@@ -70,36 +90,36 @@ for i in range(10):
 
     ng = ASSCP(graph)
     sol_ng = ng.solve(60)
-    instances.append(i)
+    instances.append(name)
     strategies.append("ASSCP")
     metrics.append(sol_ng)
     
     ng = ASS_SCP(graph)
     sol_ng = ng.solve(60)
-    instances.append(i)
+    instances.append(name)
     strategies.append("ASS_SCP")
     metrics.append(sol_ng)
 
     ng = REP_CP(graph)
     sol_ng = ng.solve(60)
-    instances.append(i)
+    instances.append(name)
     strategies.append("REP_CP")
     metrics.append(sol_ng)
 
     ng = CP_NEQ(graph)
     sol_ng = ng.solve(60)
-    instances.append(i)
+    instances.append(name)
     strategies.append("CP_NEQ")
     metrics.append(sol_ng)
 
     ng = CP_ALLDIFF(graph)
     sol_ng = ng.solve(60)
-    instances.append(i)
+    instances.append(name)
     strategies.append("CP_ALLDIFF")
     metrics.append(sol_ng) 
 
 
-with open("all_dataset_{GRAPH_TYPE}.txt", "w", encoding="utf-8") as file:
+with open("all_1.txt", "w", encoding="utf-8") as file:
     file.write(f"[{', '.join(map(str, instances))}]\n")
     file.write(f'''["{'", "'.join(strategies)}"]\n''')
     file.write(f"[{', '.join(map(str, metrics))}]\n")
@@ -120,11 +140,11 @@ ax = ppp.plot_performance_profile(
     metric_column="metric",
     direction="min",        # "min" wenn kleiner besser ist
     comparison="relative",  # oder "absolute"
-    title=f"Performance Profile (All Models, {GRAPH_TYPE})",
+    title="Performance Profile (All Models)",
     highlight_best=True,
 )
 
 #plt.show()
 
-ax.figure.savefig(f"benchmarking/plots/all_performance_profile_{GRAPH_TYPE}.png", dpi=300, bbox_inches="tight")
+ax.figure.savefig("benchmarking/plots/all_performance_profile.png", dpi=300, bbox_inches="tight")
 

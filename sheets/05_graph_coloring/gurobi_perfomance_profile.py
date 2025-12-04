@@ -10,66 +10,46 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 
-""" 
-# Beispiel-Daten (klein)
-data = pd.DataFrame({
-    "instance": ["i1","i1","i1"],
-    "strategy": ["A","B","C"],
-    "metric":   [1.3, 1.1, 1.2],
-})
-"""
-
-
+GRAPH_TYPE = "barabasi_albert"
 
 
 instances = []
 strategies = []
 metrics = []
 
-gc = GCGraphInstance("kneser", gen=0)
-gc2 = GCGraphInstance("barabasi", gen=0)
-gc3 = GCGraphInstance("erdos", gen=1)
+gc = GCGraphInstance()
 
 
-
-all_graphs = {}
-i = 0
-for k in gc.graphs.values():
-    all_graphs[i] = k
-    i += 1
-
-for b in gc2.graphs.values():
-    all_graphs[i] = b
-    i += 1
-
-for e in gc3.graphs.values():
-    all_graphs[i] = e
-    i += 1
-
-
-for name in all_graphs.keys():
-    graph = all_graphs[name]
+for i in range(10):
+    graph = gc.graphs[f"{GRAPH_TYPE}_graph{i}"]
 
     ng = ASSGRB(graph)
     sol_ng = ng.solve(60)
     print(sol_ng)
-    instances.append(name)
-    strategies.append("ASS")
+    instances.append(i)
+    strategies.append("ASS_GRB")
     metrics.append(sol_ng)
 
 
     ms = ASS_SGRB(graph)
     sol_ms = ms.solve(60)
-    instances.append(name)
-    strategies.append("ASS_S")
+    instances.append(i)
+    strategies.append("ASS_S_GRB")
     metrics.append(sol_ms)
 
 
     ds = REP_GRB(graph)
     sol_ds = ds.solve(60)
-    instances.append(name)
-    strategies.append("REP")
+    instances.append(i)
+    strategies.append("REP_GRB")
     metrics.append(sol_ds)
+
+
+with open(f"grb_{GRAPH_TYPE}_dataset.txt", "w", encoding="utf-8") as file:
+    file.write(f"[{', '.join(map(str, instances))}]\n")
+    file.write(f'''["{'", "'.join(strategies)}"]\n''')
+    file.write(f"[{', '.join(map(str, metrics))}]\n")
+
 
 
 data = pd.DataFrame({
@@ -77,20 +57,3 @@ data = pd.DataFrame({
     "strategy": strategies,
     "metric": metrics,
 })
-
-
-ax = ppp.plot_performance_profile(
-    data=data,
-    instance_column="instance",
-    strategy_column="strategy",
-    metric_column="metric",
-    direction="min",        # "min" wenn kleiner besser ist
-    comparison="relative",  # oder "absolute"
-    title="Performance Profile (Gurobi Models)",
-    highlight_best=True,
-)
-
-#plt.show()
-
-ax.figure.savefig("benchmarking/plots/gurobi_performance_profile2.png", dpi=300, bbox_inches="tight")
-
