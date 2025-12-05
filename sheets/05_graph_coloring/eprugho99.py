@@ -1,12 +1,12 @@
 # from models.gurobi.ass_grb import ASSGRB
 # from models.gurobi.ass_s_grb import ASS_SGRB
 # from models.gurobi.rep_grb import REP_GRB
-from models.cp_sat.ass_cp import ASSCP
-from models.cp_sat.ass_s_cp import ASS_SCP
-from models.cp_sat.rep_cp import REP_CP
-from models.cp_sat.cp_alldiff import CP_ALLDIFF
-from models.cp_sat.cp_neq import CP_NEQ
-from models.sat.sat_form_solver import GCSATSolver
+#from models.cp_sat.ass_cp import ASSCP
+# from models.cp_sat.ass_s_cp import ASS_SCP
+# from models.cp_sat.rep_cp import REP_CP
+# from models.cp_sat.cp_alldiff import CP_ALLDIFF
+# from models.cp_sat.cp_neq import CP_NEQ
+# from models.sat.sat_form_solver import GCSATSolver
 
 import os
 from _gclib import GCGraphInstance
@@ -28,11 +28,22 @@ data = pd.DataFrame({
 
 
 
-instances = [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9]
+instances = [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9]
 
-strategies = ["ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF", "GCSATSolver", "ASS_CP", "ASS_SCP", "REP_CP", "CP_NEQ", "CP_ALLDIFF"]
 
-metrics = [5.000000000000057, 5.000000000000002, 5.000000000000001, 5.000000000000117, 5.00000000000005, 5.0, 5.0000000000023235, 5.0, 5.0, 6.000000000000071, 6.000000000000007, 5.0, 6.0, 5.000000000000073, 5.0, 5.000000000000021, 5.0, 5.0, 6.000000000000001, 6.0, 5.0, 6.000000000000051, 6.0, 5.0, 5.000000000000025, 5.000000000000336, 5.0, 6.0, 5.0, 5.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 7.0, 7.0, 6.0, 6.0, 6.0, 7, 7.0, 7.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 7.0, 7.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 6.0, 6.0, 6.0, 7, 6.0, 6.0, 7.0, 6.0, 6.0]
+
+
+
+strategies = ["ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB", "ASS_SGRB", "REP_GRB", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)"]
+
+
+
+
+
+
+metrics = [11.0, 11.0, 12.0, 12.0, 12.0, 14.0, 13.0, 11.0, 14.0, 11.0, 10.0, 12.0, 12.0, 11.0, 14.0, 11.0, 11.0, 13.0, 11.0, 10.0, 13.0, 11.0, 10.0, 14.0, 12.0, 10.0, 12.0, 13.0, 12.0, 13.0, 11.0, 11.0, 12.0, 11.0, 11.0, 14.0, 12.0, 11.0, 14.0, 11.0, 10.0, 12.0, 12.0, 11.0, 14.0, 10.0, 11.0, 13.0, 11.0, 10.0, 13.0, 10.0, 10.0, 14.0, 11.0, 12.0, 12.0, 13.0, 12.0, 13.0]
+
+
 
 
 
@@ -123,13 +134,13 @@ ax = ppp.plot_performance_profile(
     instance_column="instance",
     strategy_column="strategy",
     metric_column="metric",
-    direction="max",        # "min" wenn kleiner besser ist
+    direction="min",        # "min" wenn kleiner besser ist
     comparison="relative",  # oder "absolute"
-    title="Performance Profile for Lower Bounds(All Models)",
+    title="Performance Profile (All Models including preprocessing)",
     highlight_best=True,
 )
 
 #plt.show()
 
-ax.figure.savefig("benchmarking/plots/all_performance_profile_lb.png", dpi=300, bbox_inches="tight")
+ax.figure.savefig("benchmarking/plots/grb_performance_erd_with_preprocessing.png", dpi=300, bbox_inches="tight")
 

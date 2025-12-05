@@ -9,7 +9,7 @@ def plot_performance_profile(
     data: pd.DataFrame,
     instance_column: str,
     strategy_column: str,
-    metric_column: str,
+    metric_column: str, 
     direction: str,
     comparison: str = "relative",
     title: str | None = None,
@@ -133,19 +133,50 @@ def plot_performance_profile(
         use_log = scale == "log"
 
     # 9) Plot each solver’s curve
+    colors_dict = {
+        strat.replace(" (preprocessed)", ""): None
+        for strat in profile.columns
+    }
+    colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+    for i, name in enumerate(colors_dict):
+        colors_dict[name] = colors[i % len(colors)]
+        
     for strat in profile.columns:
         y = profile[strat].astype(float)
-        if highlight_best and strat == best_solver:
-            ax.step(all_x, y, where="post", label=strat, linewidth=3.0, alpha=1.0)
+        name = ""
+        linestyle = ""
+        lw = 1.5
+        if strat.endswith(" (preprocessed)"):
+            name = strat.replace(" (preprocessed)", "")
+            linestyle = "--"
+            lw = 2
+        
         else:
-            ax.step(
-                all_x,
-                y,
-                where="post",
-                label=strat,
-                linewidth=1.5,
-                alpha=0.6 if highlight_best else 1.0,
-            )
+            name = strat
+            linestyle = "-"
+            
+        # if highlight_best and strat == best_solver:
+        #     ax.step(all_x, y, where="post", label=strat, linewidth=3.0, alpha=1.0)
+        # else:
+        #     ax.step(
+        #         all_x,
+        #         y,
+        #         where="post",
+        #         label=strat,
+        #         linewidth=1.5,
+        #         alpha=0.6 if highlight_best else 1.0,
+        #     )
+
+        ax.step(
+            all_x,
+            y,
+            where="post",
+            label=strat,
+            linewidth=lw,
+            alpha=0.6,
+            color=colors_dict[name],
+            linestyle=linestyle,
+        )
 
     # 10) Axis scaling and limits
     if comparison == "relative":
