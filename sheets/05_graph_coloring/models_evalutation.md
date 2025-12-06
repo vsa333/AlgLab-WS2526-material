@@ -36,7 +36,7 @@ Even though the ASS_CP and CP_ALLDIFF solver perform slightly worse, all solvers
 
 
 ## Performance on the objective value with preprocessing 
-Here, we implemented the Preprocessor and applied it to the 20 different graphs of the benchmarking set. On average, the instances were reduced by 20 - 30 nodes, with the Erdos-Renyi Graphs reducing the most and the Barabasi-Albert Graphs the least.
+Here, we implemented the Preprocessor and applied it to the 20 different graphs of the benchmarking set. On average, the instances were reduced by 5 - 6 nodes. <!--, with the Erdos-Renyi Graphs reducing the most and the Barabasi-Albert Graphs the least. -->
 
 ### Erdos-Renyi Graphs
 For these preprocessed graphs, the 60 second performance profile looks as follows:
