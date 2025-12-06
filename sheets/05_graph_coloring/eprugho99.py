@@ -1,12 +1,12 @@
 # from models.gurobi.ass_grb import ASSGRB
 # from models.gurobi.ass_s_grb import ASS_SGRB
 # from models.gurobi.rep_grb import REP_GRB
-from models.cp_sat.ass_cp import ASSCP
-from models.cp_sat.ass_s_cp import ASS_SCP
-from models.cp_sat.rep_cp import REP_CP
-from models.cp_sat.cp_alldiff import CP_ALLDIFF
-from models.cp_sat.cp_neq import CP_NEQ
-from models.sat.sat_form_solver import GCSATSolver
+# from models.cp_sat.ass_cp import ASSCP
+# from models.cp_sat.ass_s_cp import ASS_SCP
+# from models.cp_sat.rep_cp import REP_CP
+# from models.cp_sat.cp_alldiff import CP_ALLDIFF
+# from models.cp_sat.cp_neq import CP_NEQ
+# from models.sat.sat_form_solver import GCSATSolver
 
 import os
 from _gclib import GCGraphInstance
@@ -28,20 +28,23 @@ data = pd.DataFrame({
 
 
 
-instances = [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9]
+instances = [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9]
 
 
 
 
 
 
-strategies = ["ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB"]
+
+strategies = ["ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB (preprocessed)", "ASS_S_GRB (preprocessed)", "REP_GRB (preprocessed)", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB", "ASS_GRB", "ASS_S_GRB", "REP_GRB"]
 
 
 
 
 
-metrics = [9.00000000000091, 9.00000000000091, 9.00000000000091, 10.0, 10.0, 10.0, 9.000000000000021, 9.000000000000021, 9.000000000000021, 10.0, 10.0, 10.0, 9.000000000000014, 9.000000000000014, 9.000000000000014, 10.0, 10.0, 10.0, 9.000000000000004, 9.000000000000004, 9.000000000000004, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 9.000000000000009, 9.000000000000009, 9.000000000000009]
+
+metrics = [11.0, 11.0, 12.0, 11.0, 11.0, 14.0, 12.0, 11.0, 14.0, 11.0, 10.0, 12.0, 12.0, 11.0, 14.0, 10.0, 11.0, 13.0, 11.0, 10.0, 13.0, 10.0, 10.0, 14.0, 11.0, 12.0, 12.0, 13.0, 12.0, 13.0, 11.0, 11.0, 12.0, 12.0, 12.0, 14.0, 13.0, 11.0, 14.0, 11.0, 10.0, 12.0, 12.0, 11.0, 14.0, 11.0, 11.0, 13.0, 11.0, 10.0, 13.0, 11.0, 10.0, 14.0, 12.0, 10.0, 12.0, 13.0, 12.0, 13.0]
+
 
 
 
@@ -55,7 +58,6 @@ for i in range(10):
     with open(f"instances/erdos_renyi_graph{name}.col", "w", encoding="utf-8") as file:
         for u, v in graph.edges():
             file.write(f"e {u} {v}\n")
-    """
 
     sat = GCSATSolver(graph)
     sol_sat = sat.solve(60)
@@ -63,7 +65,6 @@ for i in range(10):
     strategies.append("GCSATSolver")
     metrics.append(sat.lb)
 
-    """
     ng = ASSGRB(graph)
     sol_ng = ng.solve(60)
     instances.append(i)
@@ -83,7 +84,6 @@ for i in range(10):
     instances.append(i)
     strategies.append("REP_GRB")
     metrics.append(ds.lb)
-    """
     
     ng = ASSCP(graph)
     sol_ng = ng.solve(60)
@@ -114,12 +114,14 @@ for i in range(10):
     instances.append(i)
     strategies.append("CP_ALLDIFF")
     metrics.append(ng.lb) 
+    """
 
+""" 
 with open("all_dataset_barabasi_albert_lb.txt", "w", encoding="utf-8") as file:
     file.write(f"[{', '.join(map(str, instances))}]\n")
     file.write(f'''["{'", "'.join(strategies)}"]\n''')
     file.write(f"[{', '.join(map(str, metrics))}]\n")
-
+"""
 
 data = pd.DataFrame({
     "instance": instances,
@@ -133,7 +135,7 @@ ax = ppp.plot_performance_profile(
     instance_column="instance",
     strategy_column="strategy",
     metric_column="metric",
-    direction="max",        # "min" wenn kleiner besser ist
+    direction="min",        # "min" wenn kleiner besser ist
     comparison="relative",  # oder "absolute"
     title="Performance Profile Lower Bound (All Models)",
     highlight_best=True,
@@ -141,5 +143,5 @@ ax = ppp.plot_performance_profile(
 
 #plt.show()
 
-ax.figure.savefig("benchmarking/plots/all_performance_barabasi_albert_lb_test.png", dpi=300, bbox_inches="tight")
+ax.figure.savefig("benchmarking/plots/grb_performance_erd_with_preprocessing.png", dpi=300, bbox_inches="tight")
 
