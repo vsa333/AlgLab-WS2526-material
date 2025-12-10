@@ -4,7 +4,7 @@ We evaluate the performance of the different solvers and implementations using p
 ## Performance on the objective value
 ### Erdos-Renyi Graphs
 For these graphs, the 60 second performance profile looks as follows:
-![image](/benchmarking/plots/all_performance_profile_erdos_renyi_obj.png)
+![image](./plots/all_performance_profile_erdos_renyi_obj.png)
 
 The assignment-based CP-SAT solver performs the best, finding the best solution across all instances. The representative-based Gurobi solver performs the worst, finding an objective value within 55% of the best for all instances (in the worst case). Interestingly, the CP-SAT implementation of the same method performs far better, being the third best performing solver.
 
@@ -12,7 +12,7 @@ This can be observerd for almost all methods: the CP-SAT implementation finds a 
 
 ### Barabasi-Albert Graphs
 For these graphs, the 60 second performance profile looks as follows:
-![image](/benchmarking/plots/all_performance_profile_barabasi_albert_obj.png)
+![image](./plots/all_performance_profile_barabasi_albert_obj.png)
 
 While almost all solvers found the same values for these graphs, none of them proved optimality and all timed out. Regardless, this profile differs a lot from the one above, with most solvers seemingly performing the same. However, just like with the Erdos-Renyi Graphs, the REP_GRB solver performed the worst, with the ASS_GRB solver being second to last.
 
@@ -22,14 +22,14 @@ Notably, the pure SAT solver finds the best solution for90% of instances, but re
 ## Performance of finding Lower Bounds
 ### Erdos-Renyi Graphs
 For these graphs, the 60 second performance profile for thelower bound looks as follows:
-![image](/benchmarking/plots/all_performance_profile_erdos_renyi_lb.png)
+![image](./plots/all_performance_profile_erdos_renyi_lb.png)
 
 The pure SAT solver, ASS_CP, and CP_ALLDIFF find the best lower bound after 60 seconds, while REP_GRB performs the worst, finding a lower bound within 40% of the best known for all instances.
 
 
 ### Barabasi-Albert Graphs
 For these graphs, the 60 second performance profile for the lower bound looks as follows:
-![image](/benchmarking/plots/all_performance_profile_barabasi_albert_lb.png)
+![image](./plots/all_performance_profile_barabasi_albert_lb.png)
 
 Here, the GCSATSolver performs the best, being alone on the podium. Interestingly, the CP_NEQ solver performs the worst, while the REP_GRB solver improved greatly, finding a lower bound within 11% of the best known for all instances.
 Even though the ASS_CP and CP_ALLDIFF solver perform slightly worse, all solvers perfrom more similarly than with the Erdos-Renyi Graphs.
@@ -40,12 +40,12 @@ Here, we implemented the Preprocessor and applied it to the 20 different graphs 
 
 ### Erdos-Renyi Graphs
 For these preprocessed graphs, the 60 second performance profile looks as follows:
-![image](/benchmarking/plots/all_performance_profile_erdos_renyi_obj_preprocessed.png)
+![image](./plots/all_performance_profile_erdos_renyi_obj_preprocessed.png)
 
 Of course, this is not informative on the impact of solver performance, so we plot the solvers objective values with and without preprocessing. To avoid clutter, we split the solvers into two plots, one with the CP-SAT and pure SAT solvers, and one with the Gurobi solvers.
 
 #### CP-SAT and pure SAT
-![image](/benchmarking/plots/sat_performance_erd_with_preprocessing.png)
+![image](./plots/sat_performance_erd_with_preprocessing.png)
 
 _Note: because of a naming accident, the ASS_CP solver has a blue-dotted and yellow line, instead of a blue-solid line._
 
@@ -58,7 +58,7 @@ This may be due to general fluctuations in the calculating process, which can ha
  
 
 #### Gurobi 
-![image](/benchmarking/plots/grb_performance_erd_with_preprocessing.png)
+![image](./plots/grb_performance_erd_with_preprocessing.png)
 
 The REP_GRB solver sees no improvement, while the ASS_GRB improves greatly, finding the best known solution for 40% of instances instead of 10% and climbing faster. The ASS_S_GRB solver performed slightly worse with the preprocessing applied. 
 
@@ -66,18 +66,18 @@ The REP_GRB solver sees no improvement, while the ASS_GRB improves greatly, find
 ### Barabasi-Albert Graphs
 
 For these preprocessed graphs, the 60 second performance profile looks as follows:
-![image](/benchmarking/plots/all_performance_profile_barabasi_albert_obj_preprocessed.png)
+![image](./plots/all_performance_profile_barabasi_albert_obj_preprocessed.png)
 
 
 Like before, the split the plot into two groups and compare directly with the performance without preprocessing.
 
 #### CP-SAT and pure SAT
-![image](/benchmarking/plots/sat_performance_brb_with_preprocessing.png)
+![image](./plots/sat_performance_brb_with_preprocessing.png)
 
 We can see that basically all solvers perform the same, with or without preprocessing. The GCSATSolver however, shows great improvement, finding a value within 10% of the best known for all instances with preprocessing. Before, the solver only found a value within 30% for all instances.
 
 #### Gurobi
-![image](/benchmarking/plots/grb_performance_brb_with_preprocessing.png)
+![image](./plots/grb_performance_brb_with_preprocessing.png)
 
 Similarly, the Gurobi solvers performed largely the same. The ASS_GRB solver improved and was able to find the best known solution for 70% of all instances, compared to 50% of instances before. For finding a solution within 10% or more of the best known, both variant performed the same again.
 
