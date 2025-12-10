@@ -13,7 +13,7 @@ instances = []
 strategies = []
 metrics = []
 
-gc = GCGraphInstance("wheel", gen=100)
+gc = GCGraphInstance("cycle", gen=100)
 for name in gc.graphs.keys():
     graph = gc.graphs[name]
 
@@ -58,5 +58,5 @@ ax = ppp.plot_performance_profile(
 
 #plt.show()
 
-ax.figure.savefig("benchmarking/plots/heuristics/heuristics_performance_profile_wheel.png", dpi=300, bbox_inches="tight")
+ax.figure.savefig("benchmarking/plots/heuristics/heuristics_performance_profile_wheel_test.png", dpi=300, bbox_inches="tight")
 

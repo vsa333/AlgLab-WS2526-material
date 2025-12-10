@@ -1,5 +1,5 @@
 # Evaluating the different Models
-We evaluate the performance of the different solvers and implementations using performance profiles on a 60 second time-limit and 10 different graphs at a time. For the graphs, we generated 10 instances of erdos-renyi graphs, each having above 150 nodes and an edge probability of 0.4. We also generated 10 barabasi-albert graphs, each having above 210 nodes and an m-value of 15. We used both graph types separately determine differences in performances across solvers.
+We evaluate the performance of the different solvers and implementations using performance profiles on a 60 second time-limit and 10 different graphs at a time. For the graphs, we generated 10 instances of erdos-renyi graphs, each having above 150 nodes and an edge probability of 0.4. We also generated 10 barabasi-albert graphs, each having above 210 nodes and an m-value of 15. We used both graph types separately to determine differences in performances across solvers.
 
 ## Performance on the objective value
 ### Erdos-Renyi Graphs
@@ -8,7 +8,7 @@ For these graphs, the 60 second performance profile looks as follows:
 
 The assignment-based CP-SAT solver performs the best, finding the best solution across all instances. The representative-based Gurobi solver performs the worst, finding an objective value within 55% of the best for all instances (in the worst case). Interestingly, the CP-SAT implementation of the same method performs far better, being the third best performing solver.
 
-This can be observerd for almost all methods: the CP-SAT implementation finds a better value more often than the Gurobi implementation. This might lead one to believe that CP-SAT finds good solution quickly, while Gurobi takes longer.
+This can be observerd for almost all methods: the CP-SAT implementation finds a better value more often than the Gurobi implementation. This might lead one to believe that CP-SAT finds good solutions quickly, while Gurobi takes longer.
 
 ### Barabasi-Albert Graphs
 For these graphs, the 60 second performance profile looks as follows:
@@ -16,7 +16,7 @@ For these graphs, the 60 second performance profile looks as follows:
 
 While almost all solvers found the same values for these graphs, none of them proved optimality and all timed out. Regardless, this profile differs a lot from the one above, with most solvers seemingly performing the same. However, just like with the Erdos-Renyi Graphs, the REP_GRB solver performed the worst, with the ASS_GRB solver being second to last.
 
-Notably, the pure SAT solver finds the best solution for90% of instances, but reaches the top last, finding asolution only within 30% of the best known for all instances.
+Notably, the pure SAT solver finds the best solution for 90% of instances, but reaches the top last, finding a solution only within 30% of the best known for all instances.
 
 
 ## Performance of finding Lower Bounds
@@ -32,7 +32,7 @@ For these graphs, the 60 second performance profile for the lower bound looks as
 ![image](./plots/all_performance_profile_barabasi_albert_lb.png)
 
 Here, the GCSATSolver performs the best, being alone on the podium. Interestingly, the CP_NEQ solver performs the worst, while the REP_GRB solver improved greatly, finding a lower bound within 11% of the best known for all instances.
-Even though the ASS_CP and CP_ALLDIFF solver perform slightly worse, all solvers perfrom more similarly than with the Erdos-Renyi Graphs.
+Even though the ASS_CP and CP_ALLDIFF solver perform slightly worse, all solvers perform more similarly than with the Erdos-Renyi Graphs.
 
 
 ## Performance on the objective value with preprocessing 

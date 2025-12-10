@@ -29,7 +29,7 @@ class GCGraphInstance():
 
                 case "cycle":
                     for i in range(gen):
-                        graph = nx.cycle_graph(i+100)
+                        graph = nx.cycle_graph(i+5+100)
                         self.graphs[i] = graph
 
                 case "wheel":
